@@ -1,0 +1,282 @@
+{
+  "listProduct": [
+    {
+      "id": 1,
+      "name": "SuperStar",
+      "image": "./img/products/1.jpeg",
+      "unitPrice": 2200000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 2,
+      "name": "Air Force 1",
+      "image": "./img/products/2.jpg",
+      "unitPrice": 3300000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 3,
+      "name": "Air Max 90 Love Letter",
+      "image": "./img/products/3.jpeg",
+      "unitPrice": 4200000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 4,
+      "name": "YEEZY BOOST 350 V2 BELUGA REFLECTIVE",
+      "image": "./img/products/4.jpeg",
+      "unitPrice": 12000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 5,
+      "name": "DUNK HIGH AMBUSH",
+      "image": "./img/products/5.jpeg",
+      "unitPrice": 16000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 6,
+      "name": "DUNK HIGH AMBUSH 2",
+      "image": "./img/products/6.jpg",
+      "unitPrice": 10000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 7,
+      "name": "AIR ZOOM ALPHAFLY NEXT% FLYKNIT",
+      "image": "./img/products/7.jpeg",
+      "unitPrice": 11000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 8,
+      "name": "JORDAN 1 MID TUFT ORANGE",
+      "image": "./img/products/8.jpeg",
+      "unitPrice": 6800000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 9,
+      "name": "AIR JORDAN 1 HI TROPHY ROOM CHICAGO",
+      "image": "./img/products/9.jpeg",
+      "unitPrice": 23000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 10,
+      "name": "NMD_R1 SPECTOO",
+      "image": "./img/products/10.jpg",
+      "unitPrice": 2900000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 11,
+      "name": "NMD_R1 SPECTOO",
+      "image": "./img/products/11.jpg",
+      "unitPrice": 2800000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 12,
+      "name": "ULTRABOOST 4.0 DNA",
+      "image": "./img/products/12.jpg",
+      "unitPrice": 3600000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 13,
+      "name": "ULTRABOOST 20 BLUE BOOST",
+      "image": "./img/products/13.jpeg",
+      "unitPrice": 5600000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 14,
+      "name": "ULTRABOOST 30 BLUE BOOST",
+      "image": "./img/products/14.jpeg",
+      "unitPrice": 4000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 15,
+      "name": "ULTRABOOST 50 BLUE BOOST",
+      "image": "./img/products/15.jpeg",
+      "unitPrice": 8000000,
+      "categoryId": 1,
+      "categoryName": "Sneaker"
+    },
+    {
+      "id": 16,
+      "name": "Áo Khoác Dạ Regular Phối Sọc AK045 Màu Be",
+      "image": "./img/products/16.jpg",
+      "unitPrice": 400000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 17,
+      "name": "Áo Khoác Da lộn Regular Phối Màu AK047 Màu Bò",
+      "image": "./img/products/17.jpg",
+      "unitPrice": 470000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 18,
+      "name": "Áo Khoác Raglan Regular Phối Màu AK053 Màu Đen",
+      "image": "./img/products/18.jpg",
+      "unitPrice": 500000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 19,
+      "name": "Áo Khoác Raglan Regular Phối Màu AK053 Màu Đen",
+      "image": "./img/products/19.jpg",
+      "unitPrice": 600000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 20,
+      "name": "Áo Khoác Dạ Regular Phối Vai AK046 Màu Đen",
+      "image": "./img/products/20.jpg",
+      "unitPrice": 300000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 21,
+      "name": "Áo Khoác Phao Regular Sọc Ngang AK050 Màu Đen",
+      "image": "./img/products/21.jpg",
+      "unitPrice": 645000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 22,
+      "name": "Áo Thun Wash Loose Freedom AT122 Màu Đen",
+      "image": "./img/products/22.jpg",
+      "unitPrice": 200000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 23,
+      "name": "Áo Sơ Mi Tổ Ong Regular Nút Cài SM131 Màu Trắng",
+      "image": "./img/products/23.jpg",
+      "unitPrice": 340000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 24,
+      "name": "Áo Sơ Mi Trơn Slimfit Phối Viền SM125 Màu Trắng",
+      "image": "./img/products/24.jpg",
+      "unitPrice": 400000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 25,
+      "name": "Áo Sơ Mi Slimfit Phối Hai Sọc SM127 Màu Be",
+      "image": "./img/products/25.jpg",
+      "unitPrice": 400000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 26,
+      "name": "Áo Thun In Slimfit Meowww AT125 Màu Đen",
+      "image": "./img/products/26.jpg",
+      "unitPrice": 400000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 27,
+      "name": "Áo Thun Slimfit Phối Sọc AT126 Màu Đen",
+      "image": "./img/products/27.jpg",
+      "unitPrice": 450000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 28,
+      "name": "Áo Thun In Regular Never Give Up AT124 Màu Be",
+      "image": "./img/products/28.jpg",
+      "unitPrice": 420000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 29,
+      "name": "Áo Sơ Mi Trơn Slimfit Túi Kiểu SM126 Màu Đen",
+      "image": "./img/products/29.jpg",
+      "unitPrice": 420000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 30,
+      "name": "Áo khoác Regular Có Nón AK041 Màu Xám Trắng",
+      "image": "./img/products/30.jpg",
+      "unitPrice": 420000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 31,
+      "name": "Áo khoác Regular Có Nón AK041 Màu Xám Trắng",
+      "image": "./img/products/26.jpg",
+      "unitPrice": 480000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    },
+    {
+      "id": 32,
+      "name": "Áo Sơ Caro Regular đắp nhọn SM124 Màu Đen",
+      "image": "./img/products/32.jpg",
+      "unitPrice": 480000,
+      "categoryId": 2,
+      "categoryName": "shirt"
+    }
+  ],
+  "navs": [
+    {
+      "id": 1,
+      "path": "/",
+      "label": "Trang chủ"
+    },
+    {
+      "id": 2,
+      "path": "/intro",
+      "label": "Giới thiệu"
+    },
+    {
+      "id": 3,
+      "path": "/news",
+      "label": "Tin tức"
+    },
+    {
+      "id": 4,
+      "path": "/contact",
+      "label": "Liên hệ"
+    }
+  ]
+}
