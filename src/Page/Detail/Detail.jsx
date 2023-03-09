@@ -1,15 +1,17 @@
 import { withStyles } from "@material-ui/styles";
 import {
+  Alert,
   Button,
   Container,
   FormGroup,
   Grid,
+  Snackbar,
   Stack,
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,13 +20,22 @@ import {
   decreaseQuantity,
   increaseQuantity,
 } from "../../redux/productReducer/productReducer";
+import { addToCart } from "../../redux/cartReducer/cartReducer";
 function Detail(props) {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [open, setOpen] = useState(false);
   let { product } = useSelector((state) => state.productReducer);
   useEffect(() => {
     dispatch(getProductInfo(id));
   }, [id, dispatch]);
+  const _handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const { classes } = props;
   return (
     <Stack className={classes.detail}>
@@ -113,6 +124,10 @@ function Detail(props) {
               </Button>
             </Stack>
             <Button
+              onClick={() => {
+                dispatch(addToCart(product));
+                setOpen(true);
+              }}
               sx={{
                 marginTop: "30px",
                 fontSize: "16px",
@@ -128,6 +143,17 @@ function Detail(props) {
               <AddShoppingCartIcon />
               Thêm vào giỏ
             </Button>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={_handleClose}>
+              <Alert
+                onClose={_handleClose}
+                severity="success"
+                sx={{ width: "100%" }}>
+                {`Đã thêm ${product.name} vào giỏ hàng`}
+              </Alert>
+            </Snackbar>
             <Button
               sx={{
                 marginTop: "30px",

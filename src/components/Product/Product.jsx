@@ -18,7 +18,7 @@ import { NavLink } from "react-router-dom";
 
 function Product(props) {
   const dispatch = useDispatch();
-  const [value, setValue] = useState(0);
+  const [option, setOption] = useState(0);
   const { listProduct } = useSelector((state) => state.productReducer);
   const _getOption = (value, label) => {
     return {
@@ -35,16 +35,10 @@ function Product(props) {
     _getOption(5, "Sắp xếp theo số lượng bán từ thấp đến cao"),
     _getOption(6, "Sắp xếp theo số lượng bán từ cao đến thấp"),
   ];
-  const _getSneaker = () => {
-    return listProduct.filter((product) => product.categoryId === 1);
-  };
-  const _getShirt = () => {
-    return listProduct.filter((product) => product.categoryId === 2);
-  };
-  const _renderProduct = (products) => {
-    return products.map((p) => {
+  const _renderProduct = () => {
+    return listProduct.map((product) => {
       return (
-        <Grid item xs={2} sm={4} md={4} key={p.id} sx={{ textAlign: "center" }}>
+        <Grid item xs={2} sm={4} md={4} key={product.id} sx={{ textAlign: "center" }}>
           <Stack className={classes.card}>
             <Stack
               sx={{
@@ -53,15 +47,15 @@ function Product(props) {
                 boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
               }}>
               <img
-                src={p.image}
+                src={product.image}
                 style={{ height: "200px", width: "auto", objectFit: "cover" }}
-                alt={p.name}
+                alt={product.name}
               />
               <Typography
                 sx={{ fontSize: "16px", margin: "20px 0" }}
                 variant="h1"
                 noWrap>
-                {p.name}
+                {product.name}
               </Typography>
               <Stack
                 sx={{
@@ -72,13 +66,8 @@ function Product(props) {
                 }}>
                 <Typography
                   variant="h6"
-                  sx={{ color: "#ee4d2d", fontSize: "10px", margin: "5px 0" }}>
-                  {p.unitPrice.toLocaleString()}đ
-                </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#0000008a", fontSize: "10px" }}>
-                  Đã bán
+                  sx={{ color: "#ee4d2d", fontSize: "14px", margin: "5px 0" }}>
+                  {product.unitPrice.toLocaleString()}đ
                 </Typography>
               </Stack>
             </Stack>
@@ -90,7 +79,7 @@ function Product(props) {
                   justifyContent: "flex-end",
                   flexDirection: "row",
                 }}>
-                <NavLink to={`/detail/${p.id}`}>
+                <NavLink to={`/detail/${product.id}`}>
                   <IconButton
                     sx={{
                       transition: "all 0.4s",
@@ -123,7 +112,7 @@ function Product(props) {
     });
   };
   const _handleChangeOptions = (e) => {
-    setValue(e.target.value);
+    setOption(e.target.value);
   };
   useEffect(() => {
     dispatch(getProductApi());
@@ -148,12 +137,12 @@ function Product(props) {
               fontWeight: "400",
               color: "#000",
             }}>
-            Sneaker
+            Danh sách sản phẩm
           </Typography>
           <FormGroup>
             <Select
               sx={{ fontSize: "14px", fontWeight: "300", color: "#000" }}
-              value={value}
+              value={option}
               onChange={_handleChangeOptions}>
               {_renderOptions()}
             </Select>
@@ -164,42 +153,7 @@ function Product(props) {
           flexGrow={1}
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}>
-          {_renderProduct(_getSneaker())}
-        </Grid>
-        <Stack
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}>
-          <Typography
-            variant="h2"
-            sx={{
-              textAlign: "center",
-              fontSize: "24px",
-              padding: "20px 0",
-              margin: "10px 0",
-              fontWeight: "400",
-              color: "#000",
-            }}>
-            Shirt
-          </Typography>
-          <FormGroup>
-            <Select
-              sx={{ fontSize: "14px", fontWeight: "300", color: "#000" }}
-              value={value}
-              onChange={_handleChangeOptions}>
-              {_renderOptions()}
-            </Select>
-          </FormGroup>
-        </Stack>
-        <Grid
-          container
-          flexGrow={1}
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}>
-          {_renderProduct(_getShirt())}
+          {_renderProduct()}
         </Grid>
       </Container>
     </Stack>

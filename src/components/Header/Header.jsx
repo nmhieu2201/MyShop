@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import { withStyles } from "@material-ui/styles";
 import Toolbar from "@mui/material/Toolbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PropTypes from "prop-types";
 import {
   Container,
   Grid,
@@ -23,6 +24,7 @@ function Header(props) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
+  const { cart } = useSelector((state) => state.cartReducer);
   const [value, setValue] = useState(0);
   const _handleChange = (e, value) => {
     setValue(value);
@@ -74,10 +76,10 @@ function Header(props) {
                     to="/cart"
                     sx={{ color: "#fff", textDecoration: "none" }}>
                     <Badge
-                      badgeContent={4}
+                      badgeContent={cart.length}
                       color="error"
                       sx={{ cursor: "pointer" }}>
-                      <ShoppingCartIcon sx={{color:"#fff"}} />
+                      <ShoppingCartIcon sx={{ color: "#fff" }} />
                     </Badge>
                   </NavLink>
                 </Grid>
@@ -96,3 +98,8 @@ export default withStyles({
     color: "#000",
   },
 })(Header);
+Header.propsType = {
+  classes: PropTypes.object,
+  navs: PropTypes.array,
+  _renderNav: PropTypes.func,
+};
