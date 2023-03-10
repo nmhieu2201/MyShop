@@ -10,10 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import React, { useEffect, useState } from "react";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductInfo } from "../../redux/actionThunk/product";
 import {
@@ -33,7 +33,6 @@ function Detail(props) {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
   const { classes } = props;
@@ -62,12 +61,12 @@ function Detail(props) {
             <Typography
               sx={{
                 whiteSpace: "nowrap",
-                color: "#111",
                 fontSize: "24px",
                 fontWeight: "500",
                 marginBottom: "14px",
+                color: "#FF0000",
               }}>
-              {product.unitPrice} đ
+              {product.unitPrice?.toLocaleString()} đ
             </Typography>
             <Typography
               sx={{
@@ -101,6 +100,9 @@ function Detail(props) {
                 <input
                   type="text"
                   value={product.quantity}
+                  onChange={(e) => {
+                    // dispatch()
+                  }}
                   style={{
                     padding: "14px 10px",
                     margin: "0 2px",
@@ -149,26 +151,35 @@ function Detail(props) {
               onClose={_handleClose}>
               <Alert
                 onClose={_handleClose}
+                variant="filled"
                 severity="success"
                 sx={{ width: "100%" }}>
                 {`Đã thêm ${product.name} vào giỏ hàng`}
               </Alert>
             </Snackbar>
-            <Button
-              sx={{
-                marginTop: "30px",
-                fontSize: "16px",
-                backgroundColor: "#ff0000",
-                padding: "10px 24px",
-                color: "#ffffff",
-                borderRadius: "30px",
-                "&:hover": {
-                  backgroundColor: "#626262",
-                  color: "#fed700",
-                },
+            <NavLink
+              to="/cart"
+              style={{ textDecoration: "none" }}
+              onClick={() => {
+                dispatch(addToCart(product));
+                setOpen(true);
               }}>
-              Mua ngay
-            </Button>
+              <Button
+                sx={{
+                  marginTop: "30px",
+                  fontSize: "16px",
+                  backgroundColor: "#ff0000",
+                  padding: "10px 24px",
+                  color: "#ffffff",
+                  borderRadius: "30px",
+                  "&:hover": {
+                    backgroundColor: "#626262",
+                    color: "#fed700",
+                  },
+                }}>
+                Mua ngay
+              </Button>
+            </NavLink>
           </Grid>
         </Grid>
       </Container>
