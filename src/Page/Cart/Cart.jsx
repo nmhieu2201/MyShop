@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Stack,
   Container,
@@ -12,8 +13,7 @@ import {
   DialogActions,
   DialogTitle,
 } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
+import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -27,35 +27,17 @@ import {
   deleteProduct,
   increaseQuantity,
 } from "../../redux/cartReducer/cartReducer";
+import { order } from "../../redux/orderReducer/orderReducer";
+import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const dispatch = useDispatch();
   let { cart } = useSelector((state) => state.cartReducer);
-  const fields = [
-    {
-      id: "name",
-      label: "Họ tên",
-      placeholder: "Nhập họ tên",
-      type: "text",
-    },
-    {
-      id: "email",
-      label: "Email",
-      placeholder: "Nhập email",
-      type: "email",
-    },
-    {
-      id: "phone",
-      label: "Số điện thoại",
-      placeholder: "Nhập số điện thoại",
-      type: "text",
-    },
-    {
-      id: "address",
-      label: "Địa chỉ nhận hàng",
-      placeholder: "Nhập địa chỉ của bạn",
-      type: "text",
-    },
-  ];
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getProductApi());
   }, [dispatch]);
@@ -76,49 +58,60 @@ export default function Cart() {
             flexDirection: "row",
             justifyContent: "space-around",
             alignItems: "center",
+            marginBottom: "20px",
           }}>
-          <img
-            style={{ width: "120px", marginRight: "20px" }}
-            src={item.image}
-            alt={item.name}
-          />
-          <Box>
-            <Typography
-              sx={{ fontSize: "16px", color: "#000", margin: "20px 0" }}>
-              {item.name}
-            </Typography>
-            <Typography
-              sx={{ fontSize: "14px", color: "#f05d40", marginBottom: "20px" }}>
-              {item.unitPrice.toLocaleString()}đ
-            </Typography>
-          </Box>
-          <Box>
-            <Button
-              onClick={() => {
-                dispatch(decreaseQuantity(item));
-              }}
+          <img style={{ width: "120px" }} src={item.image} alt={item.name} />
+          <Stack>
+            <Box sx={{ padding: "0px 5px" }}>
+              <Typography sx={{ fontSize: "16px", color: "#000" }}>
+                {item.name}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  color: "#f05d40",
+                  marginBottom: "20px",
+                }}>
+                {item.unitPrice.toLocaleString()}đ
+              </Typography>
+            </Box>
+            <Box
               sx={{
-                border: "1px solid #dcdcdc",
-                minWidth: "0",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "row",
               }}>
-              <RemoveIcon sx={{ color: "#000", fontSize: "12px" }} />
-            </Button>
-            <input
-              type="text"
-              style={{ width: "40px", textAlign: "center", padding: "6px 4px" }}
-              value={item.quantity}
-            />
-            <Button
-              onClick={() => {
-                dispatch(increaseQuantity(item));
-              }}
-              sx={{
-                border: "1px solid #dcdcdc",
-                minWidth: "0",
-              }}>
-              <AddIcon sx={{ color: "#000", fontSize: "12px" }} />
-            </Button>
-          </Box>
+              <Button
+                onClick={() => {
+                  dispatch(decreaseQuantity(item));
+                }}
+                sx={{
+                  border: "1px solid #dcdcdc",
+                  minWidth: "0",
+                }}>
+                <RemoveIcon sx={{ color: "#000", fontSize: "12px" }} />
+              </Button>
+              <input
+                type="text"
+                style={{
+                  width: "40px",
+                  textAlign: "center",
+                  padding: "6px 4px",
+                }}
+                value={item.quantity}
+              />
+              <Button
+                onClick={() => {
+                  dispatch(increaseQuantity(item));
+                }}
+                sx={{
+                  border: "1px solid #dcdcdc",
+                  minWidth: "0",
+                }}>
+                <AddIcon sx={{ color: "#000", fontSize: "12px" }} />
+              </Button>
+            </Box>
+          </Stack>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
               onClick={() => {
@@ -164,39 +157,35 @@ export default function Cart() {
       );
     });
   };
-  const form = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-    },
-    validationSchema: yup.object().shape({
-      name: yup.string().required("Please Enter your name"),
-      email: yup.string().email("Email is required"),
-      phone: yup.string().required("Please Enter is phone number"),
-      address: yup.string().required("Please Enter your Address"),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-  const _renderForm = () => {
-    return fields.map((field) => {
-      return (
-        <FormGroup key={field.id} sx={{ marginBottom: "20px" }}>
-          <TextField
-            label={field.label}
-            placeholder={field.placeholder}
-            id={field.id}
-            type={field.type}
-            onChange={form.handleChange}
-            onBlur={form.handleBlur}
-            helperText={form.errors[field.id]}
-          />
-        </FormGroup>
-      );
+  const _onSubmit = async (values) => {
+    let data = cart.map((item) => {
+      return {
+        productId: item.id,
+        productPrice: item.unitPrice,
+      };
     });
+    try {
+      await fetch("http://localhost:8000/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          info: values,
+          data: data,
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          dispatch(order(data));
+          toast.success("Bạn đã đặt hàng thành công !", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          navigate("/");
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
   const total = useMemo(() => {
     return cart.reduce((total, product) => {
@@ -206,18 +195,118 @@ export default function Cart() {
   return (
     <Stack sx={{ padding: "40px 0" }}>
       <Container>
-        <Grid container>
+        <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid item xs={7}>
             {_renderCart()}
           </Grid>
           <Grid item xs={5}>
-            <form type="sumbit" onSubmit={form.handleSubmit}>
+            <form type="sumbit" onSubmit={handleSubmit(_onSubmit)}>
               <Typography
                 variant="h4"
                 sx={{ color: "#000", marginBottom: "20px" }}>
                 Tổng đơn hàng: {total}đ
               </Typography>
-              {_renderForm()}
+              <FormGroup>
+                <TextField
+                  label="Họ tên"
+                  {...register("name", {
+                    required: "Tên không được bỏ trống",
+                    minLength: {
+                      value: 6,
+                      message: "Tên phải có ít nhất 6 kí tự",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "Tên không được vượt quá 50 kí tự",
+                    },
+                  })}
+                  placeholder="Nhập tên của bạn"
+                  type="text"
+                  sx={{ marginBottom: "20px" }}
+                />
+                {errors.name && (
+                  <Typography
+                    sx={{
+                      color: "Red",
+                      fontSize: "14px",
+                      marginBottom: "14px",
+                    }}>
+                    {errors.name.message}
+                  </Typography>
+                )}
+              </FormGroup>
+              <FormGroup>
+                <TextField
+                  label="Email"
+                  {...register("email", {
+                    required: "Bạn phải nhập email",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Email chưa đúng định dạng",
+                    },
+                  })}
+                  placeholder="Nhập email của bạn"
+                  type="email"
+                  sx={{ marginBottom: "20px" }}
+                />
+                {errors.email && (
+                  <Typography
+                    sx={{
+                      color: "Red",
+                      fontSize: "14px",
+                      marginBottom: "14px",
+                    }}>
+                    {errors.email.message}
+                  </Typography>
+                )}
+              </FormGroup>
+              <FormGroup>
+                <TextField
+                  label="Số điện thoại"
+                  {...register("phone", {
+                    required: "Bạn phải nhập số điện thoại",
+                    pattern: {
+                      value:
+                        /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
+                      message: "Số điện thoại chưa hợp lệ",
+                    },
+                  })}
+                  placeholder="Nhập số điện thoại của bạn"
+                  type="text"
+                  sx={{ marginBottom: "20px" }}
+                />
+                {errors.phone && (
+                  <Typography
+                    sx={{
+                      color: "Red",
+                      fontSize: "14px",
+                      marginBottom: "14px",
+                    }}>
+                    {errors.phone.message}
+                  </Typography>
+                )}
+              </FormGroup>
+              <FormGroup>
+                <TextField
+                  label="Địa chỉ nhận hàng"
+                  {...register("address", {
+                    required: "Bạn chưa nhập địa chỉ nhận hàng",
+                  })}
+                  placeholder="Nhập địa chỉ của bạn"
+                  type="text"
+                  sx={{ marginBottom: "20px" }}
+                />
+                {errors.address && (
+                  <Typography
+                    sx={{
+                      color: "Red",
+                      fontSize: "14px",
+                      marginBottom: "14px",
+                    }}>
+                    {errors.address.message}
+                  </Typography>
+                )}
+              </FormGroup>
               <Button
                 sx={{
                   background: "#ee4d2d",
@@ -238,3 +327,13 @@ export default function Cart() {
     </Stack>
   );
 }
+Cart.propTypes = {
+  cart: PropTypes.array,
+  _renderCart: PropTypes.func,
+  _onSubmit: PropTypes.func,
+  decreaseQuantity: PropTypes.func,
+  deleteProduct: PropTypes.func,
+  increaseQuantity: PropTypes.func,
+  total: PropTypes.number,
+  getProductApi: PropTypes.func,
+};

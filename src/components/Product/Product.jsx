@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { sortProduct } from "../../redux/productReducer/productReducer";
 
 function Product(props) {
   const dispatch = useDispatch();
@@ -32,13 +33,17 @@ function Product(props) {
     _getOption(2, "Sắp xếp theo giá từ cao đến thấp"),
     _getOption(3, "Sắp xếp theo tên A - Z"),
     _getOption(4, "Sắp xếp theo tên Z - A"),
-    _getOption(5, "Sắp xếp theo số lượng bán từ thấp đến cao"),
-    _getOption(6, "Sắp xếp theo số lượng bán từ cao đến thấp"),
   ];
   const _renderProduct = () => {
     return listProduct.map((product) => {
       return (
-        <Grid item xs={2} sm={4} md={4} key={product.id} sx={{ textAlign: "center" }}>
+        <Grid
+          item
+          xs={2}
+          sm={4}
+          md={4}
+          key={product.id}
+          sx={{ textAlign: "center" }}>
           <Stack className={classes.card}>
             <Stack
               sx={{
@@ -113,6 +118,7 @@ function Product(props) {
   };
   const _handleChangeOptions = (e) => {
     setOption(e.target.value);
+    dispatch(sortProduct(e.target.value));
   };
   useEffect(() => {
     dispatch(getProductApi());
@@ -194,4 +200,9 @@ export default withStyles({
 Product.propTypes = {
   listProduct: PropTypes.array,
   classes: PropTypes.object,
+  _renderOptions: PropTypes.func,
+  _renderProduct:PropTypes.func,
+  options:PropTypes.array,
+  _getOption:PropTypes.func,
+  _handleChangeOptions:PropTypes.func,
 };

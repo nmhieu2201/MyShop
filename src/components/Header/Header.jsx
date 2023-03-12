@@ -53,7 +53,7 @@ function Header(props) {
         <Container>
           <Toolbar>
             {isMatch ? (
-              <DrawerComponent navs={navs} />
+              <DrawerComponent navs={navs} cart={cart} />
             ) : (
               <Grid container>
                 <Grid item xs={6}>
@@ -102,4 +102,6 @@ Header.propsType = {
   classes: PropTypes.object,
   navs: PropTypes.array,
   _renderNav: PropTypes.func,
+  cart: PropTypes.array,
+  _handleChange: PropTypes.func,
 };

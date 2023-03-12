@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -132,7 +133,7 @@ function Detail(props) {
               }}
               sx={{
                 marginTop: "30px",
-                fontSize: "16px",
+                fontSize: "14px",
                 backgroundColor: "#fed700",
                 padding: "10px 24px",
                 color: "#000000",
@@ -141,9 +142,9 @@ function Detail(props) {
                   backgroundColor: "#626262",
                   color: "#fed700",
                 },
-              }}>
+              }} >
               <AddShoppingCartIcon />
-              Thêm vào giỏ
+              <Typography noWrap>Thêm vào giỏ</Typography>
             </Button>
             <Snackbar
               open={open}
@@ -191,3 +192,10 @@ export default withStyles({
     padding: "40px 0",
   },
 })(Detail);
+Detail.propTypes = {
+  classes:PropTypes.object,
+  decreaseQuantity:PropTypes.func,
+  increaseQuantity:PropTypes.func,
+  addToCart:PropTypes.func,
+  getProductInfo:PropTypes.func
+}

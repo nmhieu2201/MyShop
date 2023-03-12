@@ -8,6 +8,7 @@ import {
   ListItem,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Stack } from "@mui/system";
@@ -42,7 +43,7 @@ export default function DrawerComponent(props) {
         <List sx={{ marginTop: "40px" }}>{_renderMenu()}</List>
       </Drawer>
       <IconButton sx={{ color: "#fff", marginLeft: "auto" }}>
-        <Badge badgeContent={4} color="error">
+        <Badge badgeContent={props.cart.length} color="error">
           <ShoppingCartIcon />
         </Badge>
       </IconButton>
@@ -56,3 +57,8 @@ export default function DrawerComponent(props) {
     </Stack>
   );
 }
+DrawerComponent.propsTypes = {
+  navs: PropTypes.array,
+  _renderMenu: PropTypes.func,
+  cart: PropTypes.array,
+};

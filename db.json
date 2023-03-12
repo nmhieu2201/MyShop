@@ -278,5 +278,67 @@
       "path": "/contact",
       "label": "Liên hệ"
     }
+  ],
+  "order": [
+    {
+      "info": {
+        "name": "Nguyen Van A",
+        "email": "minhhieu@gmail.com",
+        "phone": "0971221212",
+        "address": "Go Vap, Ho Chi Minh"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 1
+    },
+    {
+      "info": {
+        "name": "Nguyen Van A",
+        "email": "sd@gmail.com",
+        "phone": "0594545",
+        "address": "ds"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 2
+    },
+    {
+      "info": {
+        "name": "nguyen Van a",
+        "email": "sadsad@gmail.com",
+        "phone": "0594545434",
+        "address": "hai an"
+      },
+      "data": [
+        {
+          "productId": 1,
+          "productPrice": 2200000
+        }
+      ],
+      "id": 3
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0923232323",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 2,
+          "productPrice": 3300000
+        }
+      ],
+      "id": 4
+    }
   ]
 }
