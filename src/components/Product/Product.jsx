@@ -198,11 +198,11 @@ export default withStyles({
   },
 })(Product);
 Product.propTypes = {
-  listProduct: PropTypes.array,
-  classes: PropTypes.object,
-  _renderOptions: PropTypes.func,
-  _renderProduct:PropTypes.func,
-  options:PropTypes.array,
-  _getOption:PropTypes.func,
-  _handleChangeOptions:PropTypes.func,
+  listProduct: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
+  _renderOptions: PropTypes.func.isRequired,
+  _renderProduct:PropTypes.func.isRequired,
+  options:PropTypes.array.isRequired,
+  _getOption:PropTypes.func.isRequired,
+  _handleChangeOptions:PropTypes.func.isRequired,
 };

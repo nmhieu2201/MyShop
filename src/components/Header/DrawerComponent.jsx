@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Stack } from "@mui/system";
+import { NavLink } from "react-router-dom";
 export default function DrawerComponent(props) {
   const [open, setOpen] = useState(false);
   const _renderMenu = () => {
@@ -43,9 +44,11 @@ export default function DrawerComponent(props) {
         <List sx={{ marginTop: "40px" }}>{_renderMenu()}</List>
       </Drawer>
       <IconButton sx={{ color: "#fff", marginLeft: "auto" }}>
-        <Badge badgeContent={props.cart.length} color="error">
-          <ShoppingCartIcon />
-        </Badge>
+        <NavLink to="/cart" sx={{ textDecoration: "none" }}>
+          <Badge badgeContent={props.cart.length} color="error">
+            <ShoppingCartIcon sx={{ color: "#fff" }} />
+          </Badge>
+        </NavLink>
       </IconButton>
       <IconButton
         sx={{ color: "#fff", marginLeft: "auto" }}

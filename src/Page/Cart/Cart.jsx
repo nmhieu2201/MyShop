@@ -26,12 +26,14 @@ import {
   decreaseQuantity,
   deleteProduct,
   increaseQuantity,
+  resetCart,
 } from "../../redux/cartReducer/cartReducer";
 import { order } from "../../redux/orderReducer/orderReducer";
 import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const dispatch = useDispatch();
   let { cart } = useSelector((state) => state.cartReducer);
+  const [formV, setFromV] = useState({});
   const {
     register,
     handleSubmit,
@@ -164,6 +166,7 @@ export default function Cart() {
         productPrice: item.unitPrice,
       };
     });
+    setFromV(values);
     try {
       await fetch("http://localhost:8000/order", {
         method: "POST",
@@ -181,7 +184,11 @@ export default function Cart() {
           toast.success("Bạn đã đặt hàng thành công !", {
             position: toast.POSITION.TOP_RIGHT,
           });
-          navigate("/");
+          setFromV({});
+          dispatch(resetCart());
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
         });
     } catch (e) {
       console.log(e);
@@ -328,12 +335,13 @@ export default function Cart() {
   );
 }
 Cart.propTypes = {
-  cart: PropTypes.array,
-  _renderCart: PropTypes.func,
-  _onSubmit: PropTypes.func,
-  decreaseQuantity: PropTypes.func,
-  deleteProduct: PropTypes.func,
-  increaseQuantity: PropTypes.func,
-  total: PropTypes.number,
-  getProductApi: PropTypes.func,
+  cart: PropTypes.array.isRequired,
+  _renderCart: PropTypes.func.isRequired,
+  _onSubmit: PropTypes.func.isRequired,
+  decreaseQuantity: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
+  increaseQuantity: PropTypes.func.isRequired,
+  total: PropTypes.number.isRequired,
+  resetCart:PropTypes.func.isRequired,
+  getProductApi: PropTypes.func.isRequired
 };

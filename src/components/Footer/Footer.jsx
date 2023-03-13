@@ -7,6 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 import React from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 function Footer(props) {
@@ -146,6 +147,13 @@ function Footer(props) {
 }
 export default withStyles({
   footer: {
-    padding: "20px 0",
+    // padding: "20px 0",
   },
 })(Footer);
+Footer.propTypes = {
+  listFeedback:PropTypes.array.isRequired,
+  classes:PropTypes.object.isRequired,
+  _renderFeedback:PropTypes.func.isRequired,
+  _renderNavF:PropTypes.func.isRequired,
+  _getOptions:PropTypes.func.isRequired,
+}
