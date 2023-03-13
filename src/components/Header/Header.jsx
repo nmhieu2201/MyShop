@@ -48,7 +48,7 @@ function Header(props) {
   };
   const { classes } = props;
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1,position:"fixed", zIndex:"1000",width:"100%" }}>
       <AppBar position="static" sx={{ background: "#000000" }}>
         <Container>
           <Toolbar>

@@ -62,7 +62,7 @@ export default function Cart() {
             alignItems: "center",
             marginBottom: "20px",
           }}>
-          <img style={{ width: "120px" }} src={item.image} alt={item.name} />
+          <img style={{ width: "120px" ,marginRight:"10px"}} src={item.image} alt={item.name} />
           <Stack>
             <Box sx={{ padding: "0px 5px" }}>
               <Typography sx={{ fontSize: "16px", color: "#000" }}>
@@ -80,7 +80,7 @@ export default function Cart() {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 flexDirection: "row",
               }}>
               <Button
@@ -200,7 +200,7 @@ export default function Cart() {
     }, 0);
   }, [cart]).toLocaleString();
   return (
-    <Stack sx={{ padding: "40px 0" }}>
+    <Stack sx={{ padding: "40px 0" ,marginTop:"50px"}}>
       <Container>
         <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid item xs={7}>

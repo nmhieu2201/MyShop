@@ -534,6 +534,21 @@
         }
       ],
       "id": 17
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 32,
+          "productPrice": 480000
+        }
+      ],
+      "id": 18
     }
   ]
 }

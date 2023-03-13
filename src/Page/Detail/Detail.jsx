@@ -189,6 +189,7 @@ function Detail(props) {
 }
 export default withStyles({
   detail: {
+    marginTop:"50px",
     padding: "40px 0",
   },
 })(Detail);
