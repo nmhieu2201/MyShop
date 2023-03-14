@@ -167,7 +167,7 @@ function Product(props) {
 }
 export default withStyles({
   product: {
-    marginTop:"50px"
+    marginTop: "50px",
   },
   card: {
     padding: "10x 5px",
@@ -203,8 +203,8 @@ Product.propTypes = {
   listProduct: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
   _renderOptions: PropTypes.func.isRequired,
-  _renderProduct:PropTypes.func.isRequired,
-  options:PropTypes.array.isRequired,
-  _getOption:PropTypes.func.isRequired,
-  _handleChangeOptions:PropTypes.func.isRequired,
+  _renderProduct: PropTypes.func.isRequired,
+  options: PropTypes.array.isRequired,
+  _getOption: PropTypes.func.isRequired,
+  _handleChangeOptions: PropTypes.func.isRequired,
 };

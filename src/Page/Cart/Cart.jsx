@@ -25,6 +25,7 @@ import { getProductApi } from "../../redux/actionThunk/product";
 import {
   decreaseQuantity,
   deleteProduct,
+  editQuantity,
   increaseQuantity,
   resetCart,
 } from "../../redux/cartReducer/cartReducer";
@@ -33,11 +34,16 @@ import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const dispatch = useDispatch();
   let { cart } = useSelector((state) => state.cartReducer);
+  const [quantity, setQuantity] = useState();
+  const [editProduct, setEditProduct] = useState({
+    id: "",
+    status: false,
+  });
   const [formV, setFromV] = useState({});
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm();
   const navigate = useNavigate();
   useEffect(() => {
@@ -62,7 +68,11 @@ export default function Cart() {
             alignItems: "center",
             marginBottom: "20px",
           }}>
-          <img style={{ width: "120px" ,marginRight:"10px"}} src={item.image} alt={item.name} />
+          <img
+            style={{ width: "120px", marginRight: "10px" }}
+            src={item.image}
+            alt={item.name}
+          />
           <Stack>
             <Box sx={{ padding: "0px 5px" }}>
               <Typography sx={{ fontSize: "16px", color: "#000" }}>
@@ -100,7 +110,26 @@ export default function Cart() {
                   textAlign: "center",
                   padding: "6px 4px",
                 }}
-                value={item.quantity}
+                value={
+                  editProduct.status && editProduct.id === item.id
+                    ? quantity
+                    : item.quantity
+                }
+                onFocus={() => {
+                  setQuantity(item.quantity);
+                }}
+                onChange={(e) => {
+                  setQuantity(e.target.value);
+                }}
+                onClick={() => {
+                  setEditProduct({
+                    id: item.id,
+                    status: true,
+                  });
+                }}
+                onBlur={() => {
+                  dispatch(editQuantity({ id: item.id, quantity: quantity }));
+                }}
               />
               <Button
                 onClick={() => {
@@ -200,7 +229,7 @@ export default function Cart() {
     }, 0);
   }, [cart]).toLocaleString();
   return (
-    <Stack sx={{ padding: "40px 0" ,marginTop:"50px"}}>
+    <Stack sx={{ padding: "40px 20px", marginTop: "50px" }}>
       <Container>
         <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid item xs={7}>
@@ -323,7 +352,8 @@ export default function Cart() {
                     background: "#f05d40",
                   },
                 }}
-                type="submit">
+                type="submit"
+                disabled={!isValid}>
                 Thanh toán
               </Button>
             </form>
@@ -342,6 +372,6 @@ Cart.propTypes = {
   deleteProduct: PropTypes.func.isRequired,
   increaseQuantity: PropTypes.func.isRequired,
   total: PropTypes.number.isRequired,
-  resetCart:PropTypes.func.isRequired,
-  getProductApi: PropTypes.func.isRequired
+  resetCart: PropTypes.func.isRequired,
+  getProductApi: PropTypes.func.isRequired,
 };

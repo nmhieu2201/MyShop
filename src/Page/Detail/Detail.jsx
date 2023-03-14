@@ -18,12 +18,18 @@ import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductInfo } from "../../redux/actionThunk/product";
 import {
+  changeQuantity,
   decreaseQuantity,
   increaseQuantity,
 } from "../../redux/productReducer/productReducer";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
 function Detail(props) {
   const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState("");
+  const [editQuantity, setEditQuantity] = useState({
+    id: "",
+    status: false,
+  });
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   let { product } = useSelector((state) => state.productReducer);
@@ -35,6 +41,12 @@ function Detail(props) {
       return;
     }
     setOpen(false);
+  };
+  const handleEditQuantity = (id) => {
+    setEditQuantity({
+      id,
+      status: true,
+    });
   };
   const { classes } = props;
   return (
@@ -100,9 +112,25 @@ function Detail(props) {
               <FormGroup>
                 <input
                   type="text"
-                  value={product.quantity}
+                  value={
+                    editQuantity.status && editQuantity.id === product.id
+                      ? quantity
+                      : product.quantity
+                  }
                   onChange={(e) => {
-                    // dispatch()
+                    setQuantity(e.target.value);
+                  }}
+                  onFocus={() => {
+                    setQuantity(product.quantity);
+                  }}
+                  onClick={() => {
+                    handleEditQuantity(product.id);
+                  }}
+                  onBlur={() => {
+                    if (quantity === "" || quantity === 0) {
+                      setQuantity(1);
+                    }
+                    dispatch(changeQuantity(quantity));
                   }}
                   style={{
                     padding: "14px 10px",
@@ -142,7 +170,7 @@ function Detail(props) {
                   backgroundColor: "#626262",
                   color: "#fed700",
                 },
-              }} >
+              }}>
               <AddShoppingCartIcon />
               <Typography noWrap>Thêm vào giỏ</Typography>
             </Button>
@@ -189,14 +217,14 @@ function Detail(props) {
 }
 export default withStyles({
   detail: {
-    marginTop:"50px",
+    marginTop: "50px",
     padding: "40px 0",
   },
 })(Detail);
 Detail.propTypes = {
-  classes:PropTypes.object.isRequired,
-  decreaseQuantity:PropTypes.func.isRequired,
-  increaseQuantity:PropTypes.func.isRequired,
-  addToCart:PropTypes.func.isRequired,
-  getProductInfo:PropTypes.func.isRequired,
-}
+  classes: PropTypes.object.isRequired,
+  decreaseQuantity: PropTypes.func.isRequired,
+  increaseQuantity: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  getProductInfo: PropTypes.func.isRequired,
+};

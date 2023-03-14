@@ -21,6 +21,9 @@ const productReducer = createSlice({
         state.product.quantity -= 1;
       }
     },
+    changeQuantity: (state, action) => {
+      state.product.quantity = +action.payload;
+    },
     sortProduct: (state, action) => {
       if (action.payload === 1) {
         state.listProduct.sort((a, b) => a.unitPrice - b.unitPrice);
@@ -42,6 +45,7 @@ export const {
   getProduct,
   increaseQuantity,
   decreaseQuantity,
+  changeQuantity,
   sortProduct,
 } = productReducer.actions;
 export default productReducer.reducer;
