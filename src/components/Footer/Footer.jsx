@@ -151,9 +151,9 @@ export default withStyles({
   },
 })(Footer);
 Footer.propTypes = {
-  listFeedback:PropTypes.array.isRequired,
-  classes:PropTypes.object.isRequired,
-  _renderFeedback:PropTypes.func.isRequired,
-  _renderNavF:PropTypes.func.isRequired,
-  _getOptions:PropTypes.func.isRequired,
+  listFeedback:PropTypes.array,
+  classes:PropTypes.object,
+  _renderFeedback:PropTypes.func,
+  _renderNavF:PropTypes.func,
+  _getOptions:PropTypes.func,
 }

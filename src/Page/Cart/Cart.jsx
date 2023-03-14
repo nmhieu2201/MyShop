@@ -365,13 +365,13 @@ export default function Cart() {
   );
 }
 Cart.propTypes = {
-  cart: PropTypes.array.isRequired,
-  _renderCart: PropTypes.func.isRequired,
-  _onSubmit: PropTypes.func.isRequired,
-  decreaseQuantity: PropTypes.func.isRequired,
-  deleteProduct: PropTypes.func.isRequired,
-  increaseQuantity: PropTypes.func.isRequired,
-  total: PropTypes.number.isRequired,
-  resetCart: PropTypes.func.isRequired,
-  getProductApi: PropTypes.func.isRequired,
+  cart: PropTypes.array,
+  _renderCart: PropTypes.func,
+  _onSubmit: PropTypes.func,
+  decreaseQuantity: PropTypes.func,
+  deleteProduct: PropTypes.func,
+  increaseQuantity: PropTypes.func,
+  total: PropTypes.number,
+  resetCart: PropTypes.func,
+  getProductApi: PropTypes.func,
 };

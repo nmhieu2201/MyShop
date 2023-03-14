@@ -222,9 +222,9 @@ export default withStyles({
   },
 })(Detail);
 Detail.propTypes = {
-  classes: PropTypes.object.isRequired,
-  decreaseQuantity: PropTypes.func.isRequired,
-  increaseQuantity: PropTypes.func.isRequired,
-  addToCart: PropTypes.func.isRequired,
-  getProductInfo: PropTypes.func.isRequired,
+  classes: PropTypes.object,
+  decreaseQuantity: PropTypes.func,
+  increaseQuantity: PropTypes.func,
+  addToCart: PropTypes.func,
+  getProductInfo: PropTypes.func,
 };
