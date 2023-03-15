@@ -186,13 +186,7 @@ function Detail(props) {
                 {`Đã thêm ${product.name} vào giỏ hàng`}
               </Alert>
             </Snackbar>
-            <NavLink
-              to="/cart"
-              style={{ textDecoration: "none" }}
-              onClick={() => {
-                dispatch(addToCart(product));
-                setOpen(true);
-              }}>
+            <NavLink to="/cart" style={{ textDecoration: "none" }}>
               <Button
                 sx={{
                   marginTop: "30px",
@@ -206,7 +200,7 @@ function Detail(props) {
                     color: "#fed700",
                   },
                 }}>
-                Mua ngay
+                Đến giỏ hàng
               </Button>
             </NavLink>
           </Grid>

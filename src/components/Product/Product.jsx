@@ -1,14 +1,13 @@
 import { withStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { getProductApi } from "../../redux/actionThunk/product";
 import PropTypes from "prop-types";
 import {
+  Button,
   Container,
   FormGroup,
   Grid,
-  IconButton,
   MenuItem,
   Select,
   Stack,
@@ -16,9 +15,12 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { sortProduct } from "../../redux/productReducer/productReducer";
+import { addToCart } from "../../redux/cartReducer/cartReducer";
+import { Box } from "@mui/system";
 
 function Product(props) {
   const dispatch = useDispatch();
+  const [limit, setLimit] = useState(6);
   const [option, setOption] = useState(0);
   const { listProduct } = useSelector((state) => state.productReducer);
   const _getOption = (value, label) => {
@@ -34,8 +36,34 @@ function Product(props) {
     _getOption(3, "Sắp xếp theo tên A - Z"),
     _getOption(4, "Sắp xếp theo tên Z - A"),
   ];
-  const _renderProduct = () => {
-    return listProduct.map((product) => {
+  const _renderOptions = () => {
+    return options.map((option) => {
+      return (
+        <MenuItem
+          sx={{ width: "300px", fontSize: "12px" }}
+          key={option.value}
+          value={option.value}>
+          {option.label}
+        </MenuItem>
+      );
+    });
+  };
+  const _handleChangeOptions = (e) => {
+    setOption(e.target.value);
+    dispatch(sortProduct(e.target.value));
+  };
+  const _getSneaker = () => {
+    return listProduct.filter((item) => item.categoryId === 1);
+  };
+
+  const _getShirt = () => {
+    return listProduct.filter((item) => item.categoryId === 2);
+  };
+  const handleLoadMore = () => {
+    setLimit((limit) => limit + 6);
+  };
+  const _renderProduct = (listProduct) => {
+    return listProduct.slice(0, limit).map((product) => {
       return (
         <Grid
           item
@@ -71,7 +99,7 @@ function Product(props) {
                 }}>
                 <Typography
                   variant="h6"
-                  sx={{ color: "#ee4d2d", fontSize: "14px", margin: "5px 0" }}>
+                  sx={{ color: "#ee4d2d", fontSize: "18px", margin: "5px 0" }}>
                   {product.unitPrice.toLocaleString()}đ
                 </Typography>
               </Stack>
@@ -81,44 +109,52 @@ function Product(props) {
                 className={classes.top}
                 sx={{
                   display: "flex",
-                  justifyContent: "flex-end",
-                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  height: "100%",
                 }}>
-                <NavLink to={`/detail/${product.id}`}>
-                  <IconButton
+                <NavLink
+                  to={`/detail/${product.id}`}
+                  style={{ textDecoration: "none" }}>
+                  <Button
                     sx={{
+                      fontSize: "16px",
+                      background: "#000",
+                      color: "#fff",
                       transition: "all 0.4s",
-                      "&:hover": { background: "#fff", transition: "all 0.4s" },
+                      "&:hover": {
+                        background: "#000003",
+                        transition: "all 0.4s",
+                      },
                     }}>
-                    <ShoppingCartCheckoutIcon
-                      sx={{
-                        color: "#ee4d2d",
-                      }}
-                    />
-                  </IconButton>
+                    Xem sản phẩm
+                  </Button>
                 </NavLink>
+                <Button
+                  onClick={() => {
+                    dispatch(addToCart(product));
+                  }}
+                  sx={{
+                    background: "#c30005",
+                    color: "#fff",
+                    fontSize: "16px",
+                    transition: "all 0.4s",
+                    marginTop: "20px",
+                    padding: "5px 30px",
+                    "&:hover": {
+                      background: "#c30005",
+                      transition: "all 0.4s",
+                    },
+                  }}>
+                  Mua ngay
+                </Button>
               </Stack>
             </Stack>
           </Stack>
         </Grid>
       );
     });
-  };
-  const _renderOptions = () => {
-    return options.map((option) => {
-      return (
-        <MenuItem
-          sx={{ width: "300px", fontSize: "12px" }}
-          key={option.value}
-          value={option.value}>
-          {option.label}
-        </MenuItem>
-      );
-    });
-  };
-  const _handleChangeOptions = (e) => {
-    setOption(e.target.value);
-    dispatch(sortProduct(e.target.value));
   };
   useEffect(() => {
     dispatch(getProductApi());
@@ -138,12 +174,12 @@ function Product(props) {
             variant="h2"
             sx={{
               textAlign: "center",
-              fontSize: "24px",
+              fontSize: "28px",
               padding: "20px 0",
               fontWeight: "400",
-              color: "#000",
+              color: "red",
             }}>
-            Danh sách sản phẩm
+            Sneaker
           </Typography>
           <FormGroup>
             <Select
@@ -159,8 +195,72 @@ function Product(props) {
           flexGrow={1}
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}>
-          {_renderProduct()}
+          {_renderProduct(_getSneaker())}
         </Grid>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={handleLoadMore}
+            sx={{
+              margin: "20px 0",
+              background: "#dcdcdc",
+              color: "#000",
+              padding: "5px 100px",
+              "&:hover": {
+                background: "#dcdcdc90",
+              },
+            }}>
+            Xem Thêm...
+          </Button>
+        </Box>
+        <Stack
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+          <Typography
+            variant="h2"
+            sx={{
+              textAlign: "center",
+              fontSize: "28px",
+              padding: "20px 0",
+              fontWeight: "400",
+              color: "red",
+            }}>
+            Shirt
+          </Typography>
+          <FormGroup>
+            <Select
+              sx={{ fontSize: "14px", fontWeight: "300", color: "#000" }}
+              value={option}
+              onChange={_handleChangeOptions}>
+              {_renderOptions()}
+            </Select>
+          </FormGroup>
+        </Stack>
+        <Grid
+          container
+          flexGrow={1}
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}>
+          {_renderProduct(_getShirt())}
+        </Grid>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={handleLoadMore}
+            sx={{
+              margin: "20px 0",
+              background: "#dcdcdc",
+              color: "#000",
+              padding: "5px 100px",
+              "&:hover": {
+                background: "#dcdcdc90",
+              },
+            }}>
+            Xem Thêm...
+          </Button>
+        </Box>
       </Container>
     </Stack>
   );

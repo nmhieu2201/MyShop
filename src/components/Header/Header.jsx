@@ -8,17 +8,14 @@ import PropTypes from "prop-types";
 import {
   Container,
   Grid,
-  Link,
-  Tab,
-  Tabs,
   useTheme,
   useMediaQuery,
   Badge,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 import DrawerComponent from "./DrawerComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { getNavs } from "../../redux/actionThunk/product";
 import { NavLink } from "react-router-dom";
 function Header(props) {
   const theme = useTheme();
@@ -29,40 +26,28 @@ function Header(props) {
   const _handleChange = (e, value) => {
     setValue(value);
   };
-  let { navs } = useSelector((state) => state.menuReducer);
-  useEffect(() => {
-    dispatch(getNavs());
-  }, [dispatch]);
-  const _renderNav = () => {
-    return navs.map((nav) => {
-      return (
-        <Tab
-          className={classes.navbar}
-          key={nav.id}
-          label={nav.label}
-          component={Link}
-          to={nav.path}
-        />
-      );
-    });
-  };
   const { classes } = props;
   return (
-    <Box sx={{ flexGrow: 1,position:"fixed", zIndex:"1000",width:"100%" }}>
+    <Box sx={{ flexGrow: 1, position: "fixed", zIndex: "1000", width: "100%" }}>
       <AppBar position="static" sx={{ background: "#000000" }}>
         <Container>
           <Toolbar>
             {isMatch ? (
-              <DrawerComponent navs={navs} cart={cart} />
+              <DrawerComponent cart={cart} />
             ) : (
               <Grid container>
                 <Grid item xs={6}>
-                  <Tabs
-                    onChange={_handleChange}
-                    value={value}
-                    textColor="inherit">
-                    {_renderNav()}
-                  </Tabs>
+                  <NavLink to="/">
+                    <img
+                      style={{
+                        height: "30px",
+                        width: "auto",
+                        objectFit: "cover",
+                      }}
+                      src="./img/logo/images.png"
+                      alt="logo"
+                    />
+                  </NavLink>
                 </Grid>
                 <Grid
                   item
@@ -82,6 +67,18 @@ function Header(props) {
                       <ShoppingCartIcon sx={{ color: "#fff" }} />
                     </Badge>
                   </NavLink>
+                  <NavLink
+                    to="/login"
+                    style={{
+                      textDecoration: "none",
+                      marginLeft: "20px",
+                      color: "#fff",
+                      "&:hover": {
+                        color: "#fffc",
+                      },
+                    }}>
+                    LOGIN
+                  </NavLink>
                 </Grid>
               </Grid>
             )}
@@ -100,7 +97,6 @@ export default withStyles({
 })(Header);
 Header.propsType = {
   classes: PropTypes.object,
-  navs: PropTypes.array,
   _renderNav: PropTypes.func,
   cart: PropTypes.array,
   _handleChange: PropTypes.func,
