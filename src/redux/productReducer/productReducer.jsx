@@ -21,8 +21,31 @@ const productReducer = createSlice({
         state.product.quantity -= 1;
       }
     },
+    changeQuantity: (state, action) => {
+      state.product.quantity = +action.payload;
+    },
+    sortProduct: (state, action) => {
+      if (action.payload === 1) {
+        state.listProduct.sort((a, b) => a.unitPrice - b.unitPrice);
+      }
+      if (action.payload === 2) {
+        state.listProduct.sort((a, b) => b.unitPrice - a.unitPrice);
+      }
+      if (action.payload === 3) {
+        state.listProduct.sort((a, b) => a.name.localeCompare(b.name));
+      }
+      if (action.payload === 4) {
+        state.listProduct.sort((a, b) => b.name.localeCompare(a.name));
+      }
+    },
   },
 });
-export const { getAllProduct, getProduct, increaseQuantity, decreaseQuantity } =
-  productReducer.actions;
+export const {
+  getAllProduct,
+  getProduct,
+  increaseQuantity,
+  decreaseQuantity,
+  changeQuantity,
+  sortProduct,
+} = productReducer.actions;
 export default productReducer.reducer;

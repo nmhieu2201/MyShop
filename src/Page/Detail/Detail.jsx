@@ -9,20 +9,27 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import React, { useEffect, useState } from "react";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductInfo } from "../../redux/actionThunk/product";
 import {
+  changeQuantity,
   decreaseQuantity,
   increaseQuantity,
 } from "../../redux/productReducer/productReducer";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
 function Detail(props) {
   const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState("");
+  const [editQuantity, setEditQuantity] = useState({
+    id: "",
+    status: false,
+  });
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   let { product } = useSelector((state) => state.productReducer);
@@ -33,8 +40,13 @@ function Detail(props) {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
+  };
+  const handleEditQuantity = (id) => {
+    setEditQuantity({
+      id,
+      status: true,
+    });
   };
   const { classes } = props;
   return (
@@ -62,12 +74,12 @@ function Detail(props) {
             <Typography
               sx={{
                 whiteSpace: "nowrap",
-                color: "#111",
                 fontSize: "24px",
                 fontWeight: "500",
                 marginBottom: "14px",
+                color: "#FF0000",
               }}>
-              {product.unitPrice} đ
+              {product.unitPrice?.toLocaleString()} đ
             </Typography>
             <Typography
               sx={{
@@ -100,7 +112,26 @@ function Detail(props) {
               <FormGroup>
                 <input
                   type="text"
-                  value={product.quantity}
+                  value={
+                    editQuantity.status && editQuantity.id === product.id
+                      ? quantity
+                      : product.quantity
+                  }
+                  onChange={(e) => {
+                    setQuantity(e.target.value);
+                  }}
+                  onFocus={() => {
+                    setQuantity(product.quantity);
+                  }}
+                  onClick={() => {
+                    handleEditQuantity(product.id);
+                  }}
+                  onBlur={() => {
+                    if (quantity === "" || quantity === 0) {
+                      setQuantity(1);
+                    }
+                    dispatch(changeQuantity(quantity));
+                  }}
                   style={{
                     padding: "14px 10px",
                     margin: "0 2px",
@@ -130,7 +161,7 @@ function Detail(props) {
               }}
               sx={{
                 marginTop: "30px",
-                fontSize: "16px",
+                fontSize: "14px",
                 backgroundColor: "#fed700",
                 padding: "10px 24px",
                 color: "#000000",
@@ -141,7 +172,7 @@ function Detail(props) {
                 },
               }}>
               <AddShoppingCartIcon />
-              Thêm vào giỏ
+              <Typography noWrap>Thêm vào giỏ</Typography>
             </Button>
             <Snackbar
               open={open}
@@ -149,26 +180,29 @@ function Detail(props) {
               onClose={_handleClose}>
               <Alert
                 onClose={_handleClose}
+                variant="filled"
                 severity="success"
                 sx={{ width: "100%" }}>
                 {`Đã thêm ${product.name} vào giỏ hàng`}
               </Alert>
             </Snackbar>
-            <Button
-              sx={{
-                marginTop: "30px",
-                fontSize: "16px",
-                backgroundColor: "#ff0000",
-                padding: "10px 24px",
-                color: "#ffffff",
-                borderRadius: "30px",
-                "&:hover": {
-                  backgroundColor: "#626262",
-                  color: "#fed700",
-                },
-              }}>
-              Mua ngay
-            </Button>
+            <NavLink to="/cart" style={{ textDecoration: "none" }}>
+              <Button
+                sx={{
+                  marginTop: "30px",
+                  fontSize: "16px",
+                  backgroundColor: "#ff0000",
+                  padding: "10px 24px",
+                  color: "#ffffff",
+                  borderRadius: "30px",
+                  "&:hover": {
+                    backgroundColor: "#626262",
+                    color: "#fed700",
+                  },
+                }}>
+                Đến giỏ hàng
+              </Button>
+            </NavLink>
           </Grid>
         </Grid>
       </Container>
@@ -177,6 +211,14 @@ function Detail(props) {
 }
 export default withStyles({
   detail: {
+    marginTop: "50px",
     padding: "40px 0",
   },
 })(Detail);
+Detail.propTypes = {
+  classes: PropTypes.object,
+  decreaseQuantity: PropTypes.func,
+  increaseQuantity: PropTypes.func,
+  addToCart: PropTypes.func,
+  getProductInfo: PropTypes.func,
+};

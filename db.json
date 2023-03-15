@@ -278,5 +278,277 @@
       "path": "/contact",
       "label": "Liên hệ"
     }
+  ],
+  "order": [
+    {
+      "info": {
+        "name": "Nguyen Van A",
+        "email": "minhhieu@gmail.com",
+        "phone": "0971221212",
+        "address": "Go Vap, Ho Chi Minh"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 1
+    },
+    {
+      "info": {
+        "name": "Nguyen Van A",
+        "email": "sd@gmail.com",
+        "phone": "0594545",
+        "address": "ds"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 2
+    },
+    {
+      "info": {
+        "name": "nguyen Van a",
+        "email": "sadsad@gmail.com",
+        "phone": "0594545434",
+        "address": "hai an"
+      },
+      "data": [
+        {
+          "productId": 1,
+          "productPrice": 2200000
+        }
+      ],
+      "id": 3
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0923232323",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 2,
+          "productPrice": 3300000
+        }
+      ],
+      "id": 4
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0923455633",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 5,
+          "productPrice": 16000000
+        }
+      ],
+      "id": 5
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0983434344",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 6
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0983434344",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 1,
+          "productPrice": 2200000
+        }
+      ],
+      "id": 7
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 12,
+          "productPrice": 3600000
+        }
+      ],
+      "id": 8
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 16,
+          "productPrice": 400000
+        }
+      ],
+      "id": 9
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 15,
+          "productPrice": 8000000
+        }
+      ],
+      "id": 10
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0983434344",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 2,
+          "productPrice": 3300000
+        }
+      ],
+      "id": 11
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0983434344",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 6,
+          "productPrice": 10000000
+        }
+      ],
+      "id": 12
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0983434344",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 23,
+          "productPrice": 340000
+        }
+      ],
+      "id": 13
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 17,
+          "productPrice": 470000
+        }
+      ],
+      "id": 14
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 15
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 16
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 3,
+          "productPrice": 4200000
+        }
+      ],
+      "id": 17
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị"
+      },
+      "data": [
+        {
+          "productId": 32,
+          "productPrice": 480000
+        }
+      ],
+      "id": 18
+    }
   ]
 }
