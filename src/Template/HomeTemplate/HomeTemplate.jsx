@@ -8,7 +8,7 @@ export default function HomeTemplate() {
   return (
     <>
       <Header />
-      <Stack sx={{ minHeight: "600px" }}>
+      <Stack sx={{ minHeight: "800px" }}>
         <Outlet />
       </Stack>
       <Footer />

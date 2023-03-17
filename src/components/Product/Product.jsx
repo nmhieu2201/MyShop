@@ -17,7 +17,8 @@ import { NavLink } from "react-router-dom";
 import { sortProduct } from "../../redux/productReducer/productReducer";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
 import { Box } from "@mui/system";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Product(props) {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(6);
@@ -40,6 +41,7 @@ function Product(props) {
     return options.map((option) => {
       return (
         <MenuItem
+          disableScrollLock={true}
           sx={{ width: "300px", fontSize: "12px" }}
           key={option.value}
           value={option.value}>
@@ -134,6 +136,12 @@ function Product(props) {
                 <Button
                   onClick={() => {
                     dispatch(addToCart(product));
+                    toast.success(
+                      ` Bạn đã thêm ${product.name} khỏi giỏ hàng !`,
+                      {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                      }
+                    );
                   }}
                   sx={{
                     background: "#c30005",
@@ -262,6 +270,7 @@ function Product(props) {
           </Button>
         </Box>
       </Container>
+      <ToastContainer />
     </Stack>
   );
 }
