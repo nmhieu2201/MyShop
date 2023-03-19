@@ -12,6 +12,7 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  Checkbox,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -33,22 +34,35 @@ import { order } from "../../redux/orderReducer/orderReducer";
 import { useNavigate } from "react-router-dom";
 export default function Cart() {
   const dispatch = useDispatch();
-  let { cart } = useSelector((state) => state.cartReducer);
   const [quantity, setQuantity] = useState();
+  const [cartCurrent, setCartCurrent] = useState([]);
+  const navigate = useNavigate();
   const [editProduct, setEditProduct] = useState({
     id: "",
     status: false,
   });
-  const [formV, setFromV] = useState({});
+  let { cart } = useSelector((state) => state.cartReducer);
+  let { user } = useSelector((state) => state.userReducer);
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm();
-  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getProductApi());
   }, [dispatch]);
+  useEffect(() => {
+    let c = cart.map((p) => {
+      return {
+        select: false,
+        id: p.id,
+        image: p.image,
+        unitPrice: p.unitPrice,
+        quantity: p.quantity,
+      };
+    });
+    setCartCurrent(c);
+  }, [cart]);
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,7 +71,7 @@ export default function Cart() {
     setOpen(false);
   };
   const _renderCart = () => {
-    return cart.map((item) => {
+    return cartCurrent.map((item) => {
       return (
         <Stack
           key={item.id}
@@ -68,6 +82,21 @@ export default function Cart() {
             alignItems: "center",
             marginBottom: "20px",
           }}>
+          <Checkbox
+            value={item.id}
+            checked={item.select}
+            onChange={(e) => {
+              let check = e.target.checked;
+              setCartCurrent(
+                cartCurrent.map((p) => {
+                  if (p.id === item.id) {
+                    p.select = check;
+                  }
+                  return p;
+                })
+              );
+            }}
+          />
           <img
             style={{ width: "120px", marginRight: "10px" }}
             src={item.image}
@@ -189,19 +218,24 @@ export default function Cart() {
     });
   };
   const _onSubmit = async (values) => {
-    let data = cart.map((item) => {
-      return {
-        productId: item.id,
-        productPrice: item.unitPrice,
-      };
-    });
-    setFromV(values);
+    let data = cartCurrent
+      .filter((item) => item.select === true)
+      .map((item) => {
+        return {
+          productId: item.id,
+          productQuantity: item.quantity,
+          productImg: item.image,
+          productPrice: item.unitPrice,
+        };
+      });
+    let username = user.username;
+    let info = { ...values, username };
     try {
       await fetch("http://localhost:8000/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          info: values,
+          info: info,
           data: data,
         }),
       })
@@ -213,7 +247,6 @@ export default function Cart() {
           toast.success("Bạn đã đặt hàng thành công !", {
             position: toast.POSITION.TOP_RIGHT,
           });
-          setFromV({});
           dispatch(resetCart());
           setTimeout(() => {
             navigate("/");
@@ -353,7 +386,7 @@ export default function Cart() {
                   },
                 }}
                 type="submit"
-                disabled={!isValid}>
+                disabled={!isValid }>
                 Thanh toán
               </Button>
             </form>
