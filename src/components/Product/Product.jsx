@@ -21,7 +21,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function Product(props) {
   const dispatch = useDispatch();
-  const [limit, setLimit] = useState(6);
+  const [limitSneakers, setLimitSneakers] = useState(6);
+  const [limitShirts, setLimitShirts] = useState(6);
+  const [sneakers, setSneakers] = useState([]);
+  const [shirts, setShirts] = useState([]);
   const [option, setOption] = useState(0);
   const { listProduct } = useSelector((state) => state.productReducer);
   const _getOption = (value, label) => {
@@ -54,18 +57,121 @@ function Product(props) {
     setOption(e.target.value);
     dispatch(sortProduct(e.target.value));
   };
-  const _getSneaker = () => {
-    return listProduct.filter((item) => item.categoryId === 1);
-  };
 
-  const _getShirt = () => {
-    return listProduct.filter((item) => item.categoryId === 2);
+  useEffect(() => {
+    let sneakers = listProduct.filter((item) => item.categoryId === 1);
+    let shirts = listProduct.filter((item) => item.categoryId === 2);
+    setShirts(shirts);
+    setSneakers(sneakers);
+  }, [listProduct]);
+  const handleLoadMoreSneaker = () => {
+    setLimitSneakers((limitSneakers) => limitSneakers + 6);
   };
-  const handleLoadMore = () => {
-    setLimit((limit) => limit + 6);
+  const handleLoadMoreShirts = () => {
+    setLimitShirts((limitShirts) => limitShirts + 6);
   };
-  const _renderProduct = (listProduct) => {
-    return listProduct.slice(0, limit).map((product) => {
+  const _renderSneakers = () => {
+    return sneakers.slice(0, limitSneakers).map((product) => {
+      return (
+        <Grid
+          item
+          xs={2}
+          sm={4}
+          md={4}
+          key={product.id}
+          sx={{ textAlign: "center" }}>
+          <Stack className={classes.card}>
+            <Stack
+              sx={{
+                padding: "10px",
+                borderRadius: "6px",
+                boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+              }}>
+              <img
+                src={product.image}
+                style={{ height: "200px", width: "auto", objectFit: "cover" }}
+                alt={product.name}
+              />
+              <Typography
+                sx={{ fontSize: "16px", margin: "20px 0" }}
+                variant="h1"
+                noWrap>
+                {product.name}
+              </Typography>
+              <Stack
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexDirection: "row",
+                }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: "#ee4d2d", fontSize: "18px", margin: "5px 0" }}>
+                  {product.unitPrice.toLocaleString()}đ
+                </Typography>
+              </Stack>
+            </Stack>
+            <Stack className={classes.info}>
+              <Stack
+                className={classes.top}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  height: "100%",
+                }}>
+                <NavLink
+                  to={`/detail/${product.id}`}
+                  style={{ textDecoration: "none" }}>
+                  <Button
+                    sx={{
+                      fontSize: "16px",
+                      background: "#000",
+                      color: "#fff",
+                      transition: "all 0.4s",
+                      "&:hover": {
+                        background: "#000003",
+                        transition: "all 0.4s",
+                      },
+                    }}>
+                    Xem sản phẩm
+                  </Button>
+                </NavLink>
+                <Button
+                  onClick={() => {
+                    dispatch(addToCart(product));
+                    toast.success(
+                      ` Bạn đã thêm ${product.name} khỏi giỏ hàng !`,
+                      {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                      }
+                    );
+                  }}
+                  sx={{
+                    background: "#c30005",
+                    color: "#fff",
+                    fontSize: "16px",
+                    transition: "all 0.4s",
+                    marginTop: "20px",
+                    padding: "5px 30px",
+                    "&:hover": {
+                      background: "#c30005",
+                      transition: "all 0.4s",
+                    },
+                  }}>
+                  Mua ngay
+                </Button>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Grid>
+      );
+    });
+  };
+  const _renderShirts = () => {
+    return shirts.slice(0, limitShirts).map((product) => {
       return (
         <Grid
           item
@@ -193,6 +299,7 @@ function Product(props) {
             <Select
               sx={{ fontSize: "14px", fontWeight: "300", color: "#000" }}
               value={option}
+              MenuProps={{ disableScrollLock: true }}
               onChange={_handleChangeOptions}>
               {_renderOptions()}
             </Select>
@@ -203,11 +310,11 @@ function Product(props) {
           flexGrow={1}
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}>
-          {_renderProduct(_getSneaker())}
+          {_renderSneakers()}
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button
-            onClick={handleLoadMore}
+            onClick={handleLoadMoreSneaker}
             sx={{
               margin: "20px 0",
               background: "#dcdcdc",
@@ -242,6 +349,7 @@ function Product(props) {
             <Select
               sx={{ fontSize: "14px", fontWeight: "300", color: "#000" }}
               value={option}
+              MenuProps={{ disableScrollLock: true }}
               onChange={_handleChangeOptions}>
               {_renderOptions()}
             </Select>
@@ -252,11 +360,11 @@ function Product(props) {
           flexGrow={1}
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}>
-          {_renderProduct(_getShirt())}
+          {_renderShirts()}
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button
-            onClick={handleLoadMore}
+            onClick={handleLoadMoreShirts}
             sx={{
               margin: "20px 0",
               background: "#dcdcdc",

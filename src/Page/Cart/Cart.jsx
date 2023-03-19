@@ -386,7 +386,7 @@ export default function Cart() {
                   },
                 }}
                 type="submit"
-                disabled={!isValid}>
+                disabled={!isValid }>
                 Thanh toán
               </Button>
             </form>

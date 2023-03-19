@@ -327,6 +327,36 @@
         }
       ],
       "id": 2
+    },
+    {
+      "info": {
+        "name": "Minh Hiếu",
+        "email": "hieu@gmail.com",
+        "phone": "0987654321",
+        "address": "Hải An , Hải Lăng, Quảng Trị",
+        "username": "admin"
+      },
+      "data": [
+        {
+          "productId": 2,
+          "productQuantity": 1,
+          "productImg": "./img/products/2.jpg",
+          "productPrice": 3300000
+        },
+        {
+          "productId": 3,
+          "productQuantity": 1,
+          "productImg": "./img/products/3.jpeg",
+          "productPrice": 4200000
+        },
+        {
+          "productId": 1,
+          "productQuantity": 1,
+          "productImg": "./img/products/1.jpeg",
+          "productPrice": 2200000
+        }
+      ],
+      "id": 3
     }
   ]
 }

@@ -6,4 +6,7 @@
   font-family: "Roboto", sans-serif;
 }
 
-
+body {
+  overflow-x: hidden;
+  overflow-y: scroll !important;
+}
