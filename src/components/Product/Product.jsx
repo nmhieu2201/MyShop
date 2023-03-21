@@ -34,7 +34,7 @@ function Product(props) {
     };
   };
   const options = [
-    _getOption(0, "Tùy chọn"),
+    _getOption(0, "Sắp xếp"),
     _getOption(1, "Sắp xếp theo giá từ thấp đến cao"),
     _getOption(2, "Sắp xếp theo giá từ cao đến thấp"),
     _getOption(3, "Sắp xếp theo tên A - Z"),
@@ -57,19 +57,13 @@ function Product(props) {
     setOption(e.target.value);
     dispatch(sortProduct(e.target.value));
   };
-
-  useEffect(() => {
-    let sneakers = listProduct.filter((item) => item.categoryId === 1);
-    let shirts = listProduct.filter((item) => item.categoryId === 2);
-    setShirts(shirts);
-    setSneakers(sneakers);
-  }, [listProduct]);
   const handleLoadMoreSneaker = () => {
     setLimitSneakers((limitSneakers) => limitSneakers + 6);
   };
   const handleLoadMoreShirts = () => {
     setLimitShirts((limitShirts) => limitShirts + 6);
   };
+
   const _renderSneakers = () => {
     return sneakers.slice(0, limitSneakers).map((product) => {
       return (
@@ -141,7 +135,7 @@ function Product(props) {
                 </NavLink>
                 <Button
                   onClick={() => {
-                    dispatch(addToCart(product));
+                    dispatch(addToCart({ ...product, quantity: 1 }));
                     toast.success(
                       ` Bạn đã thêm ${product.name} khỏi giỏ hàng !`,
                       {
@@ -241,7 +235,7 @@ function Product(props) {
                 </NavLink>
                 <Button
                   onClick={() => {
-                    dispatch(addToCart(product));
+                    dispatch(addToCart({ ...product, quantity: 1 }));
                     toast.success(
                       ` Bạn đã thêm ${product.name} khỏi giỏ hàng !`,
                       {
@@ -270,6 +264,12 @@ function Product(props) {
       );
     });
   };
+  useEffect(() => {
+    let sneakers = listProduct.filter((item) => item.categoryId === 1);
+    let shirts = listProduct.filter((item) => item.categoryId === 2);
+    setShirts(shirts);
+    setSneakers(sneakers);
+  }, [listProduct]);
   useEffect(() => {
     dispatch(getProductApi());
   }, [dispatch]);
@@ -312,21 +312,23 @@ function Product(props) {
           columns={{ xs: 4, sm: 8, md: 12 }}>
           {_renderSneakers()}
         </Grid>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            onClick={handleLoadMoreSneaker}
-            sx={{
-              margin: "20px 0",
-              background: "#dcdcdc",
-              color: "#000",
-              padding: "5px 100px",
-              "&:hover": {
-                background: "#dcdcdc90",
-              },
-            }}>
-            Xem Thêm...
-          </Button>
-        </Box>
+        {limitSneakers < sneakers.length && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={handleLoadMoreSneaker}
+              sx={{
+                margin: "20px 0",
+                background: "#dcdcdc",
+                color: "#000",
+                padding: "5px 100px",
+                "&:hover": {
+                  background: "#dcdcdc90",
+                },
+              }}>
+              Xem Thêm...
+            </Button>
+          </Box>
+        )}
         <Stack
           sx={{
             display: "flex",
@@ -362,21 +364,23 @@ function Product(props) {
           columns={{ xs: 4, sm: 8, md: 12 }}>
           {_renderShirts()}
         </Grid>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            onClick={handleLoadMoreShirts}
-            sx={{
-              margin: "20px 0",
-              background: "#dcdcdc",
-              color: "#000",
-              padding: "5px 100px",
-              "&:hover": {
-                background: "#dcdcdc90",
-              },
-            }}>
-            Xem Thêm...
-          </Button>
-        </Box>
+        {limitShirts < shirts.length && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={handleLoadMoreShirts}
+              sx={{
+                margin: "20px 0",
+                background: "#dcdcdc",
+                color: "#000",
+                padding: "5px 100px",
+                "&:hover": {
+                  background: "#dcdcdc90",
+                },
+              }}>
+              Xem Thêm...
+            </Button>
+          </Box>
+        )}
       </Container>
       <ToastContainer />
     </Stack>

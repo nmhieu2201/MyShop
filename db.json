@@ -290,18 +290,13 @@
       },
       "data": [
         {
-          "productId": 1,
-          "productQuantity": 1,
-          "productImg": "./img/products/1.jpeg",
-          "productPrice": 2200000
-        },
-        {
           "productId": 2,
-          "productQuantity": 1,
+          "productQuantity": 8,
           "productImg": "./img/products/2.jpg",
           "productPrice": 3300000
         }
       ],
+      "date": "2023-03-21",
       "id": 1
     },
     {
@@ -314,18 +309,19 @@
       },
       "data": [
         {
-          "productId": 17,
-          "productQuantity": 3,
-          "productImg": "./img/products/17.jpg",
-          "productPrice": 470000
+          "productId": 5,
+          "productQuantity": 1,
+          "productImg": "./img/products/5.jpeg",
+          "productPrice": 16000000
         },
         {
-          "productId": 18,
+          "productId": 6,
           "productQuantity": 1,
-          "productImg": "./img/products/18.jpg",
-          "productPrice": 500000
+          "productImg": "./img/products/6.jpg",
+          "productPrice": 10000000
         }
       ],
+      "date": "2023-03-21",
       "id": 2
     },
     {
@@ -338,24 +334,19 @@
       },
       "data": [
         {
-          "productId": 2,
-          "productQuantity": 1,
-          "productImg": "./img/products/2.jpg",
-          "productPrice": 3300000
+          "productId": 6,
+          "productQuantity": 5,
+          "productImg": "./img/products/6.jpg",
+          "productPrice": 10000000
         },
         {
-          "productId": 3,
+          "productId": 9,
           "productQuantity": 1,
-          "productImg": "./img/products/3.jpeg",
-          "productPrice": 4200000
-        },
-        {
-          "productId": 1,
-          "productQuantity": 1,
-          "productImg": "./img/products/1.jpeg",
-          "productPrice": 2200000
+          "productImg": "./img/products/9.jpeg",
+          "productPrice": 23000000
         }
       ],
+      "date": "2023-03-21",
       "id": 3
     }
   ]

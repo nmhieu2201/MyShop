@@ -156,7 +156,12 @@ function Detail(props) {
             </Stack>
             <Button
               onClick={() => {
-                dispatch(addToCart(product));
+                dispatch(
+                  addToCart({
+                    ...product,
+                    quantity: product.quantity ?? quantity,
+                  })
+                );
                 setOpen(true);
               }}
               sx={{

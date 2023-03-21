@@ -50,16 +50,8 @@ function Header() {
           <Toolbar>
             <Grid container>
               <Grid item xs={6}>
-                <NavLink to="/">
-                  <img
-                    style={{
-                      height: "30px",
-                      width: "auto",
-                      objectFit: "cover",
-                    }}
-                    src="./img/logo/images.png"
-                    alt="logo"
-                  />
+                <NavLink to="/" style={{textDecoration:"none"}}>
+                  <Typography sx={{fontSize:"30px",color:"#fff" }}>Hiếu Shop</Typography>
                 </NavLink>
               </Grid>
               <Grid
