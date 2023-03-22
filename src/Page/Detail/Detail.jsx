@@ -196,6 +196,7 @@ function Detail(props) {
                 sx={{
                   marginTop: "30px",
                   fontSize: "16px",
+                  marginLeft:"5px",
                   backgroundColor: "#ff0000",
                   padding: "10px 24px",
                   color: "#ffffff",

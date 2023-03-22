@@ -1,47 +1,48 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
+import Tippy from "@tippyjs/react/headless";
 import Box from "@mui/material/Box";
 import { withStyles } from "@material-ui/styles";
 import Toolbar from "@mui/material/Toolbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PropTypes from "prop-types";
-import {
-  Container,
-  Grid,
-  Badge,
-  Avatar,
-  MenuItem,
-  Menu,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
+import { Container, Grid, Badge, Avatar, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { settings } from "../../util/config";
+import { useSpring } from "framer-motion";
+import Popup from "../Popup/Popup";
 function Header() {
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleLogout = () => {
+    localStorage.removeItem("cart");
+    settings.eraseCookie("user");
+    navigate("/");
+    window.location.reload();
   };
   const { cart } = useSelector((state) => state.cartReducer);
   const { user } = useSelector((state) => state.userReducer);
-  const [value, setValue] = useState(0);
-  const _handleChange = (e, value) => {
-    setValue(value);
+  const springConfig = { damping: 15, stiffness: 300 };
+  const initialScale = 0.5;
+  const opacity = useSpring(0, springConfig);
+  const scale = useSpring(initialScale, springConfig);
+  const onMount = () => {
+    scale.set(1);
+    opacity.set(1);
+  };
+  const onHide = ({ unmount }) => {
+    const cleanup = scale.onChange((value) => {
+      if (value <= initialScale) {
+        cleanup();
+        unmount();
+      }
+    });
+    scale.set(initialScale);
+    opacity.set(0);
+  };
+  const style = {
+    scale,
+    opacity,
   };
   return (
     <Box sx={{ flexGrow: 1, position: "fixed", zIndex: "1000", width: "100%" }}>
@@ -50,8 +51,10 @@ function Header() {
           <Toolbar>
             <Grid container>
               <Grid item xs={6}>
-                <NavLink to="/" style={{textDecoration:"none"}}>
-                  <Typography sx={{fontSize:"30px",color:"#fff" }}>Hiếu Shop</Typography>
+                <NavLink to="/" style={{ textDecoration: "none" }}>
+                  <Typography sx={{ fontSize: "30px", color: "#fff" }}>
+                    Hiếu Shop
+                  </Typography>
                 </NavLink>
               </Grid>
               <Grid
@@ -86,9 +89,21 @@ function Header() {
                     LOGIN
                   </NavLink>
                 ) : (
-                  <>
+                  <Tippy
+                    placement="bottom-end"
+                    interactive
+                    delay={[0, 300]}
+                    animation={true}
+                    onMount={onMount}
+                    onHide={onHide}
+                    render={(attrs) => (
+                      <Popup
+                        style={style}
+                        attrs={attrs}
+                        handleLogout={handleLogout}
+                      />
+                    )}>
                     <Avatar
-                      onClick={handleOpenUserMenu}
                       sx={{
                         width: "28px",
                         height: "28px",
@@ -98,41 +113,7 @@ function Header() {
                       alt="Remy Sharp"
                       src="/static/images/avatar/1.jpg"
                     />
-                    <Menu
-                      sx={{ mt: "45px" }}
-                      id="menu-appbar"
-                      disableScrollLock={true}
-                      anchorEl={anchorElUser}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      open={Boolean(anchorElUser)}
-                      onClose={handleCloseUserMenu}>
-                      <MenuItem onClick={handleCloseUserMenu}>
-                        <NavLink
-                          to="puchase"
-                          style={{ textDecoration: "none", color: "#000" }}>
-                          Sản phẩm đã mua
-                        </NavLink>
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          localStorage.removeItem("cart");
-                          settings.eraseCookie("user");
-                          handleCloseUserMenu();
-                          navigate("/");
-                          window.location.reload();
-                        }}>
-                        <Typography textAlign="center">Đăng xuất</Typography>
-                      </MenuItem>
-                    </Menu>
-                  </>
+                  </Tippy>
                 )}
               </Grid>
             </Grid>
