@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Stack,
@@ -113,7 +113,7 @@ export default function Cart() {
                   color: "#f05d40",
                   marginBottom: "20px",
                 }}>
-                {item.unitPrice.toLocaleString()}đ
+                {item.unitPrice?.toLocaleString()}đ
               </Typography>
             </Box>
             <Box
@@ -237,6 +237,7 @@ export default function Cart() {
         body: JSON.stringify({
           info: info,
           data: data,
+          date: new Date().toJSON().slice(0, 10),
         }),
       })
         .then((res) => {
@@ -256,11 +257,12 @@ export default function Cart() {
       console.log(e);
     }
   };
-  const total = useMemo(() => {
-    return cart.reduce((total, product) => {
+  const total = cartCurrent
+    .filter((item) => item.select === true)
+    .reduce((total, product) => {
       return (total += product.quantity * product.unitPrice);
-    }, 0);
-  }, [cart]).toLocaleString();
+    }, 0)
+    .toLocaleString();
   return (
     <Stack sx={{ padding: "40px 20px", marginTop: "50px" }}>
       <Container>
@@ -386,7 +388,7 @@ export default function Cart() {
                   },
                 }}
                 type="submit"
-                disabled={!isValid }>
+                disabled={!isValid}>
                 Thanh toán
               </Button>
             </form>

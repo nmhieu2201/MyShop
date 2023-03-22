@@ -14,9 +14,9 @@ export default function Puchase() {
     return listPuchase.filter((item) => item.info.username === user.username);
   };
   const _renderPuchase = () => {
-    return _getPuchase().map((value) => {
+    return _getPuchase().map((value,index) => {
       return (
-        <div style={{marginBottom:"20px"}}>
+        <div key={index} style={{marginBottom:"20px"}}>
           <Stack
             sx={{
               marginBottom: "30px",
@@ -43,6 +43,7 @@ export default function Puchase() {
               </div>
             ))}
           </Stack>
+          <>
           <Typography>
             Tổng tiền:  
             {value.data.reduce((total, item) => {
@@ -50,6 +51,8 @@ export default function Puchase() {
             }, 0)}
             đ
           </Typography>
+          <Typography>Ngày đặt hàng: {value.date?.toString()}</Typography>
+          </>
           <hr />
         </div>
       );

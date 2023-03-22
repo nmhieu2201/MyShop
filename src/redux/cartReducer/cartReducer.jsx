@@ -13,9 +13,9 @@ const cartReducer = createSlice({
         (product) => product.id === action.payload.id
       );
       if (index !== -1) {
-        state.cart[index].quantity += 1;
+        state.cart[index].quantity += action.payload.quantity;
       } else {
-        let product = { ...action.payload, quantity: 1 };
+        let product = { ...action.payload, quantity: +action.payload.quantity };
         state.cart.push(product);
       }
       settings.setStorageJson(
