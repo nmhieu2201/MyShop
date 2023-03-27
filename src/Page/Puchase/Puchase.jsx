@@ -13,45 +13,57 @@ export default function Puchase() {
   const _getPuchase = () => {
     return listPuchase.filter((item) => item.info.username === user.username);
   };
+  const _getSrcImg = (images) => {
+    let src = images.find((image) => image.src[0]);
+    return src.src;
+  };
+  const _renderPuchaseItem = (value) => {
+    return value.data.map((p) => (
+      <div
+        key={p.productId}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}>
+        <img
+          style={{
+            width: "100px",
+            height: "auto",
+            objectFit: "cover",
+            marginRight: "20px",
+          }}
+          src={_getSrcImg(p.productImg)}
+          alt={p.productName}
+        />
+        <Typography sx={{ marginRight: "20px" }}>
+          x{p.productQuantity}
+        </Typography>
+        <Typography>{p.productPrice}đ</Typography>
+      </div>
+    ));
+  };
   const _renderPuchase = () => {
-    return _getPuchase().map((value,index) => {
+    return _getPuchase().map((value, index) => {
       return (
-        <div key={index} style={{marginBottom:"20px"}}>
+        <div key={index} style={{ marginBottom: "20px" }}>
           <Stack
             sx={{
               marginBottom: "30px",
             }}
             key={value.id}>
-            {value.data.map((p) => (
-              <div
-                key={p.productId}
-                style={{ display: "flex", alignItems: "center" , justifyContent:"space-between"}}>
-                <img
-                  style={{
-                    width: "100px",
-                    height: "auto",
-                    objectFit: "cover",
-                    marginRight: "20px",
-                  }}
-                  src={p.productImg}
-                  alt={p.productName}
-                />
-                <Typography sx={{ marginRight: "20px" }}>
-                  x{p.productQuantity}
-                </Typography>
-                <Typography>{p.productPrice}đ</Typography>
-              </div>
-            ))}
+            {_renderPuchaseItem(value)}
           </Stack>
           <>
-          <Typography>
-            Tổng tiền:  
-            {value.data.reduce((total, item) => {
-              return (total += item.productPrice * item.productQuantity);
-            }, 0)}
-            đ
-          </Typography>
-          <Typography>Ngày đặt hàng: {value.date?.toString()}</Typography>
+            <Typography>
+              Tổng tiền:
+              {value.data.reduce((total, item) => {
+                return (total += item.productPrice * item.productQuantity);
+              }, 0).toLocaleString()}
+              đ
+            </Typography>
+            <Typography sx={{margin:"10px 0"}}>Ngày đặt hàng: {value.date?.toString()}</Typography>
+            <Typography sx={{ color: "Red" , marginBottom:"20px" }}>Trạng thái: </Typography>
           </>
           <hr />
         </div>

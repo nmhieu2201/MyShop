@@ -31,9 +31,8 @@ function Product(props) {
     _getOption(4, "Sắp xếp theo tên Z - A"),
   ];
 
-  const getSold = useCallback(
+  const _getSold = useCallback(
     (id) => {
-      console.log("getSold", id);
       let totalSold = 0;
       listOrder.forEach((item) => {
         item.data.forEach((product) => {
@@ -87,7 +86,7 @@ function Product(props) {
           </Typography>
           <Sort options={options}/>
         </Stack>
-        <Sneakers sneakers={sneakers} getSold={getSold} />
+        <Sneakers sneakers={sneakers} getSold={_getSold} />
         <Stack
           sx={{
             display: "flex",
@@ -108,7 +107,7 @@ function Product(props) {
           </Typography>
           <Sort options={options}/>
         </Stack>
-        <Shirts shirts={shirts} getSold={getSold} />
+        <Shirts shirts={shirts} getSold={_getSold} />
       </Container>
       <ToastContainer />
     </Stack>
