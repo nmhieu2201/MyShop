@@ -9,7 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../redux/userReducer/userReducer";
 export default function Login() {
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+  } = useForm();
   const navigate = useNavigate();
   const _onSubmit = (user) => {
     if (user.username === "admin" && user.password === "123456") {

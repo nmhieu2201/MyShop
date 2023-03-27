@@ -1,5 +1,4 @@
-import { withStyles } from "@material-ui/styles";
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { Typography } from "@mui/material";
 import Tippy from "@tippyjs/react/headless";
@@ -21,7 +20,7 @@ function Sort(props) {
     </Tippy>
   );
 }
-export default withStyles({})(Sort);
+export default memo(Sort)
 Sort.propTypes = {
   options: PropTypes.array.isRequired,
 };

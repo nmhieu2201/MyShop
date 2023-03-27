@@ -11,7 +11,7 @@ export const getProductInfo = (id) => {
     await fetch("http://localhost:8000/listProduct")
       .then((response) => response.json())
       .then((data) => {
-        let p = data.find((item) => item.id === Number(id));
+        let p = data.find((item) => item.id === Math.floor(id));
         dispatch(getProduct(p));
       });
   };

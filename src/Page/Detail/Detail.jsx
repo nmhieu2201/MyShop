@@ -1,4 +1,6 @@
 import { withStyles } from "@material-ui/styles";
+import ImageGallery from "react-image-gallery";
+
 import {
   Alert,
   Button,
@@ -9,7 +11,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -23,6 +24,7 @@ import {
   increaseQuantity,
 } from "../../redux/productReducer/productReducer";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
+import ProductFeeback from "../../components/ProductFeeback/ProductFeeback";
 function Detail(props) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState("");
@@ -35,18 +37,45 @@ function Detail(props) {
   let { product } = useSelector((state) => state.productReducer);
   useEffect(() => {
     dispatch(getProductInfo(id));
-  }, [id, dispatch]);
+  }, [dispatch, id]);
   const _handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
-  const handleEditQuantity = (id) => {
+  const _handleEditQuantity = (id) => {
     setEditQuantity({
       id,
       status: true,
     });
+  };
+  const _handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        ...product,
+        quantity: product.quantity ?? quantity,
+      })
+    );
+    setOpen(true);
+  };
+
+  const _handeDecreaseQuantity = () => {
+    dispatch(decreaseQuantity(product));
+  };
+  const _handeIncreaseQuantity = () => {
+    dispatch(increaseQuantity(product));
+  };
+
+  const _getStaticImages = (images) => {
+    let imgSrc = [];
+    images?.forEach((image) => {
+      imgSrc.push({
+        original: `.${image.src}`,
+        thumbnail: `.${image.src}`,
+      });
+    });
+    return imgSrc;
   };
   const { classes } = props;
   return (
@@ -54,10 +83,13 @@ function Detail(props) {
       <Container>
         <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
           <Grid item xs={6} sx={{ textAlign: "center" }}>
-            <img
-              style={{ width: "60%" }}
-              src={`.${product.image}`}
-              alt={product.name}
+            <ImageGallery
+              items={_getStaticImages(product?.images)}
+              showPlayButton={false}
+              onMouseOver={(e) => {
+                console.log(e);
+              }}
+              showNav={false}
             />
           </Grid>
           <Grid item xs={6}>
@@ -79,16 +111,7 @@ function Detail(props) {
                 marginBottom: "14px",
                 color: "#FF0000",
               }}>
-              {product.unitPrice?.toLocaleString()} đ
-            </Typography>
-            <Typography
-              sx={{
-                marginBottom: "30px",
-                fontSize: "14px",
-                fontWeight: "400",
-                color: "#767676",
-              }}>
-              Đã bán:{" "}
+              {product?.unitPrice?.toLocaleString()} đ
             </Typography>
             <Stack
               sx={{
@@ -99,7 +122,7 @@ function Detail(props) {
               }}>
               <Button
                 onClick={() => {
-                  dispatch(decreaseQuantity(product));
+                  _handeDecreaseQuantity();
                 }}
                 className={classes.btn}
                 sx={{
@@ -124,7 +147,7 @@ function Detail(props) {
                     setQuantity(product.quantity);
                   }}
                   onClick={() => {
-                    handleEditQuantity(product.id);
+                    _handleEditQuantity(product.id);
                   }}
                   onBlur={() => {
                     if (quantity === "" || quantity === 0) {
@@ -144,7 +167,7 @@ function Detail(props) {
               <Button
                 className={classes.btn}
                 onClick={() => {
-                  dispatch(increaseQuantity(product));
+                  _handeIncreaseQuantity();
                 }}
                 sx={{
                   border: "1px solid #dcdcdc",
@@ -156,13 +179,7 @@ function Detail(props) {
             </Stack>
             <Button
               onClick={() => {
-                dispatch(
-                  addToCart({
-                    ...product,
-                    quantity: product.quantity ?? quantity,
-                  })
-                );
-                setOpen(true);
+                _handleAddToCart();
               }}
               sx={{
                 marginTop: "30px",
@@ -196,7 +213,7 @@ function Detail(props) {
                 sx={{
                   marginTop: "30px",
                   fontSize: "16px",
-                  marginLeft:"5px",
+                  marginLeft: "5px",
                   backgroundColor: "#ff0000",
                   padding: "10px 24px",
                   color: "#ffffff",
@@ -211,20 +228,14 @@ function Detail(props) {
             </NavLink>
           </Grid>
         </Grid>
+        <ProductFeeback product={product} />
       </Container>
     </Stack>
   );
 }
 export default withStyles({
   detail: {
-    marginTop: "50px",
+    marginTop: "100px",
     padding: "40px 0",
   },
 })(Detail);
-Detail.propTypes = {
-  classes: PropTypes.object,
-  decreaseQuantity: PropTypes.func,
-  increaseQuantity: PropTypes.func,
-  addToCart: PropTypes.func,
-  getProductInfo: PropTypes.func,
-};

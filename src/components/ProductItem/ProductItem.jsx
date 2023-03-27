@@ -6,6 +6,10 @@ import PropTypes from "prop-types";
 
 function ProductItem(props) {
   let { product, getSold, classes, handleAddToCart } = props;
+  const _getSrcImg = (images) => {
+    let src = images.find((image) => image.src[0]);
+    return src.src;
+  };
   return (
     <Grid
       item
@@ -22,7 +26,7 @@ function ProductItem(props) {
             boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
           }}>
           <img
-            src={product.image}
+            src={_getSrcImg(product.images)}
             style={{
               height: "200px",
               width: "auto",
@@ -88,7 +92,7 @@ function ProductItem(props) {
                 handleAddToCart(product);
               }}
               style={{
-                textDecoration:"none",
+                textDecoration: "none",
                 background: "#c30005",
                 color: "#fff",
                 textTransform: "uppercase",

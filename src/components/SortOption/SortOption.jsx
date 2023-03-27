@@ -8,7 +8,7 @@ function SortOption(props) {
   const dispatch = useDispatch();
   const [sort, setSort] = useState(0);
   let { attrs, options, classes } = props;
-  const handleChangeOption = (e) => {
+  const _handleChangeOption = (e) => {
     setSort(e.target.value);
     dispatch(sortProduct(sort));
   };
@@ -19,7 +19,7 @@ function SortOption(props) {
           key={option.value}
           value={option.value}
           onClick={(e) => {
-            handleChangeOption(e);
+            _handleChangeOption(e);
           }}>
           {option.label}
         </li>

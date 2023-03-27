@@ -8,8 +8,9 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
 import "react-toastify/dist/ReactToastify.css";
 import ProductItem from "../ProductItem/ProductItem";
-function Shirts(props) {
+function Shirts({ classes, shirts, getSold }) {
   const [limitShirts, setLimitShirts] = useState(6);
+  const dispatch = useDispatch();
   const _handleLoadMoreShirts = () => {
     setLimitShirts((prev) => prev + 6);
   };
@@ -20,8 +21,7 @@ function Shirts(props) {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
   };
-  const dispatch = useDispatch();
-  let { classes, shirts, getSold } = props;
+
   return (
     <>
       <Grid

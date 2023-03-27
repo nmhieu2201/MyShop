@@ -21,6 +21,13 @@ const productReducer = createSlice({
         state.product.quantity -= 1;
       }
     },
+    postFeedBack: (state, action) => {
+      console.log(action.payload);
+      state.product = {
+        ...state.product,
+        feedbackContent: action.payload,
+      };
+    },
     changeQuantity: (state, action) => {
       state.product.quantity = +action.payload;
     },
@@ -47,5 +54,6 @@ export const {
   decreaseQuantity,
   changeQuantity,
   sortProduct,
+  postFeedBack,
 } = productReducer.actions;
 export default productReducer.reducer;
