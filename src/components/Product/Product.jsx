@@ -2,11 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductApi } from "../../redux/actionThunk/product";
-import {
-  Container,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sneakers from "../Sneakers/Sneakers";
@@ -15,6 +11,7 @@ import Sort from "../Sort/Sort";
 function Product(props) {
   const dispatch = useDispatch();
   const [listOrder, setListOrder] = useState([]);
+  const [productFeedback, setProductFeedback] = useState([]);
   const [sneakers, setSneakers] = useState([]);
   const [shirts, setShirts] = useState([]);
   const { listProduct } = useSelector((state) => state.productReducer);
@@ -45,6 +42,23 @@ function Product(props) {
     },
     [listOrder]
   );
+  const _getRating = useCallback(
+    (id) => {
+      let ratingProduct = 0;
+      let result = 0;
+      let newArray = productFeedback
+        .map((item) => item.data)
+        .filter((product) => product.id === id);
+      newArray.forEach((product) => {
+        ratingProduct += product.rating;
+      });
+      if (newArray.length > 0) {
+        result = ratingProduct / newArray.length;
+      }
+      return result;
+    },
+    [productFeedback]
+  );
   useEffect(() => {
     let sneakers = listProduct.filter((item) => item.categoryId === 1);
     let shirts = listProduct.filter((item) => item.categoryId === 2);
@@ -52,16 +66,24 @@ function Product(props) {
     setSneakers(sneakers);
   }, [listProduct]);
   useEffect(() => {
-    async function fetchData() {
+    async function getListOrder() {
       await fetch("http://localhost:8000/order")
         .then((res) => res.json())
         .then((data) => setListOrder(data));
     }
-    fetchData();
+    getListOrder();
   }, []);
   useEffect(() => {
     dispatch(getProductApi());
   }, [dispatch]);
+  useEffect(() => {
+    async function getListFeedback() {
+      await fetch("http://localhost:8000/productFeedback")
+        .then((res) => res.json())
+        .then((data) => setProductFeedback(data));
+    }
+    getListFeedback();
+  }, []);
   const { classes } = props;
   return (
     <Stack className={classes.product} sx={{ padding: "30px 0" }}>
@@ -84,9 +106,13 @@ function Product(props) {
             }}>
             Sneaker
           </Typography>
-          <Sort options={options}/>
+          <Sort options={options} />
         </Stack>
-        <Sneakers sneakers={sneakers} getSold={_getSold} />
+        <Sneakers
+          sneakers={sneakers}
+          getSold={_getSold}
+          getRating={_getRating}
+        />
         <Stack
           sx={{
             display: "flex",
@@ -105,9 +131,9 @@ function Product(props) {
             }}>
             Shirt
           </Typography>
-          <Sort options={options}/>
+          <Sort options={options} />
         </Stack>
-        <Shirts shirts={shirts} getSold={_getSold} />
+        <Shirts shirts={shirts} getSold={_getSold} getRating={_getRating} />
       </Container>
       <ToastContainer />
     </Stack>

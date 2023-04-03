@@ -7,6 +7,7 @@ import {
   Container,
   FormGroup,
   Grid,
+  Rating,
   Snackbar,
   Stack,
   Typography,
@@ -17,7 +18,10 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductInfo } from "../../redux/actionThunk/product";
+import {
+  getProductFeedback,
+  getProductInfo,
+} from "../../redux/actionThunk/product";
 import {
   changeQuantity,
   decreaseQuantity,
@@ -34,15 +38,27 @@ function Detail(props) {
   });
   const { id } = useParams();
   const [open, setOpen] = useState(false);
-  let { product } = useSelector((state) => state.productReducer);
+  let { product, feedbackContent } = useSelector(
+    (state) => state.productReducer
+  );
   useEffect(() => {
     dispatch(getProductInfo(id));
+  }, [dispatch, id]);
+  useEffect(() => {
+    dispatch(getProductFeedback(id));
   }, [dispatch, id]);
   const _handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
+  };
+  const _getRating = () => {
+    let result = 0;
+    feedbackContent.forEach((product) => {
+      result += product.rating;
+    });
+    return Math.floor(result / feedbackContent.length);
   };
   const _handleEditQuantity = (id) => {
     setEditQuantity({
@@ -86,9 +102,6 @@ function Detail(props) {
             <ImageGallery
               items={_getStaticImages(product?.images)}
               showPlayButton={false}
-              onMouseOver={(e) => {
-                console.log(e);
-              }}
               showNav={false}
             />
           </Grid>
@@ -113,6 +126,14 @@ function Detail(props) {
               }}>
               {product?.unitPrice?.toLocaleString()} đ
             </Typography>
+            {_getRating() > 0 && (
+              <Rating
+                name="read-only"
+                sx={{ marginBottom: "15px" }}
+                value={_getRating()}
+                readOnly
+              />
+            )}
             <Stack
               sx={{
                 display: "flex",
@@ -228,7 +249,7 @@ function Detail(props) {
             </NavLink>
           </Grid>
         </Grid>
-        <ProductFeeback product={product} />
+        <ProductFeeback feedbackContent={feedbackContent} />
       </Container>
     </Stack>
   );

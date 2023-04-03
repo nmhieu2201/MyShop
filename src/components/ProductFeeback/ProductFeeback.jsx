@@ -1,54 +1,38 @@
 import { withStyles } from "@material-ui/styles";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Avatar, Divider, Grid, List, Rating, Stack, Typography } from "@mui/material";
 import React, { memo } from "react";
-import { useDispatch } from "react-redux";
-import { postFeedBack } from "../../redux/productReducer/productReducer";
 
-function ProductFeeback(props) {
-  const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm();
-
-  const onSubmit = (values) => {
-    dispatch(postFeedBack(values));
+function ProductFeeback({ feedbackContent }) {
+  const _renderFeedback = () => {
+    return feedbackContent.map((feedback, index) => {
+      return (
+        <div key={index} style={{marginTop:"10px"}}>
+          <Grid container alignItems="flex-start" width="60%" >
+            <Grid item xs={3} sm={1}>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"   />
+            </Grid>
+            <Grid item xs={4} sm={1}>
+              <Typography color="error">{feedback.info ?? "User"}</Typography>
+              <Rating name="read-only" value={feedback.rating} readOnly />
+              <Typography  marginY={2}>{feedback.feedback}</Typography>
+            </Grid>
+            <Grid item xs={5} sm={10}/>
+          </Grid>
+          <Divider variant="inset" component="li" />
+        </div>
+      );
+    });
   };
   return (
     <Stack>
-      <Typography sx={{ marginBottom: "20px" }}>Nhận xét</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          {...register("feedbackContent", {
-            required: "Nội dung không được bỏ trống",
-          })}
-          aria-label="minimum height"
-          style={{ width: "100%", outline: "none", padding: "10px" }}
-        />
-        <Box sx={{ textAlign: "right" }}>
-          <Button
-            type="submit"
-            contained
-            sx={{
-              marginTop: "20px",
-              background: "#f05123",
-              color: "#fff",
-              textTransform: "uppercase",
-              padding: "8px 20px",
-              fontSize: "14px",
-              borderRadius: "20px",
-              "&:hover": {
-                background: "#f05129",
-                color: "#fff",
-              },
-            }}
-            disabled={!isValid}>
-            Bình luận
-          </Button>
-        </Box>
-      </form>
+      <Typography sx={{ marginBottom: "20px" }}>Đánh giá sản phẩm</Typography>
+      <List
+        sx={{
+          width: "100%",
+          bgcolor: "background.paper",
+        }}>
+        {_renderFeedback()}
+      </List>
     </Stack>
   );
 }
