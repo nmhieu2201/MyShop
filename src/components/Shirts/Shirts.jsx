@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
 import "react-toastify/dist/ReactToastify.css";
 import ProductItem from "../ProductItem/ProductItem";
-function Shirts({ classes, shirts, getSold }) {
+function Shirts({ classes, shirts, getSold, getRating }) {
   const [limitShirts, setLimitShirts] = useState(6);
   const dispatch = useDispatch();
   const _handleLoadMoreShirts = () => {
@@ -34,6 +34,7 @@ function Shirts({ classes, shirts, getSold }) {
             <ProductItem
               key={product.id}
               getSold={getSold}
+              getRating={getRating}
               classes={classes}
               product={product}
               handleAddToCart={_handleAddToCart}
@@ -68,4 +69,5 @@ Shirts.propTypes = {
   classes: PropTypes.object.isRequired,
   shirts: PropTypes.array.isRequired,
   getSold: PropTypes.func.isRequired,
+  getRating:PropTypes.func.isRequired,
 };

@@ -1,10 +1,26 @@
-import { Container, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Dialog,
+  DialogContent,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Evaluate from "../../components/Evaluate/Evaluate";
 
-export default function Puchase() {
+function Puchase() {
   const [listPuchase, setListPuchase] = useState([]);
   let { user } = useSelector((state) => state.userReducer);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   useEffect(() => {
     fetch("http://localhost:8000/order")
       .then((res) => res.json())
@@ -57,13 +73,45 @@ export default function Puchase() {
           <>
             <Typography>
               Tổng tiền:
-              {value.data.reduce((total, item) => {
-                return (total += item.productPrice * item.productQuantity);
-              }, 0).toLocaleString()}
+              {value.data
+                .reduce((total, item) => {
+                  return (total += item.productPrice * item.productQuantity);
+                }, 0)
+                .toLocaleString()}
               đ
             </Typography>
-            <Typography sx={{margin:"10px 0"}}>Ngày đặt hàng: {value.date?.toString()}</Typography>
-            <Typography sx={{ color: "Red" , marginBottom:"20px" }}>Trạng thái: </Typography>
+            <Typography sx={{ margin: "10px 0" }}>
+              Ngày đặt hàng: {value.date?.toString()}
+            </Typography>
+            <Button
+              onClick={handleOpenModal}
+              sx={{
+                minWidth: "150px",
+                minHeight: "40px",
+                padding: "8px 20px",
+                marginBottom: "20px",
+                outline: "none",
+                overflow: "hidden",
+                textTransform: "uppercase",
+                borderRadius: "2px",
+                backgroundColor: "#ee4d2d",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#d73211",
+                },
+              }}>
+              Rating
+            </Button>
+            <Dialog
+              fullScreen={fullScreen}
+              disableScrollLock={true}
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="responsive-dialog-title">
+              <DialogContent sx={{ width: "600px", maxWidth: "100%" }}>
+                <Evaluate product={value.data} onClose={handleCloseModal} />
+              </DialogContent>
+            </Dialog>
           </>
           <hr />
         </div>
@@ -81,3 +129,5 @@ export default function Puchase() {
     </Stack>
   );
 }
+
+export default Puchase;

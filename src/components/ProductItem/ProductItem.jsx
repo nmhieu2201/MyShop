@@ -2,10 +2,16 @@ import { withStyles } from "@material-ui/styles";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
+import Rating from "@mui/material/Rating";
 import PropTypes from "prop-types";
 
-function ProductItem(props) {
-  let { product, getSold, classes, handleAddToCart } = props;
+function ProductItem({
+  product,
+  getSold,
+  classes,
+  handleAddToCart,
+  getRating,
+}) {
   const _getSrcImg = (images) => {
     let src = images.find((image) => image.src[0]);
     return src.src;
@@ -40,6 +46,11 @@ function ProductItem(props) {
             noWrap>
             {product.name}
           </Typography>
+          {getRating(product.id) > 0 ? (
+            <Rating name="read-only" value={getRating(product.id)} readOnly />
+          ) : (
+            <Typography sx={{marginBottom:"23px"}}>{}</Typography>
+          )}
           <Stack
             sx={{
               display: "flex",
@@ -149,4 +160,5 @@ ProductItem.propTypes = {
   getSold: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   handleAddToCart: PropTypes.func.isRequired,
+  getRating: PropTypes.func.isRequired,
 };

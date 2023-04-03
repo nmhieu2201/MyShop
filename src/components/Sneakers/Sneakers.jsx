@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../redux/cartReducer/cartReducer";
 import "react-toastify/dist/ReactToastify.css";
 import ProductItem from "../ProductItem/ProductItem";
-function Sneakers(props) {
+function Sneakers({ classes, sneakers, getSold, getRating }) {
   const [limitSneakers, setLimitSneakers] = useState(6);
   const _handleLoadMoreSneaker = () => {
     setLimitSneakers((prev) => prev + 6);
@@ -20,7 +20,7 @@ function Sneakers(props) {
     });
   };
   const dispatch = useDispatch();
-  let { classes, sneakers, getSold } = props;
+
   return (
     <>
       <Grid
@@ -33,6 +33,7 @@ function Sneakers(props) {
             <ProductItem
               key={product.id}
               getSold={getSold}
+              getRating={getRating}
               classes={classes}
               product={product}
               handleAddToCart={_handleAddToCart}
@@ -67,4 +68,5 @@ Sneakers.propTypes = {
   classes: PropTypes.object.isRequired,
   sneakers: PropTypes.array.isRequired,
   getSold: PropTypes.func.isRequired,
+  getRating:PropTypes.func.isRequired,
 };
