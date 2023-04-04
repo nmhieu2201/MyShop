@@ -30,7 +30,7 @@ function Evaluate({ product, onClose }) {
   };
   const { user } = useSelector((s) => s.userReducer);
   const _getSrcImg = () => {
-    let src = product[0].productImg.find((image) => image.src[0]);
+    let src = product.productImg.find((image) => image.src[0]);
     return src.src;
   };
   const handleRating = (e) => {
@@ -41,7 +41,7 @@ function Evaluate({ product, onClose }) {
   };
   const _onSubmit = async (values) => {
     let info = user.username;
-    let id = product[0].productId;
+    let id = product.productId;
     const data = { ...values, rating, id };
     try {
       await fetch("http://localhost:8000/productFeedback", {
@@ -169,6 +169,6 @@ function Evaluate({ product, onClose }) {
 }
 export default memo(Evaluate);
 Evaluate.propTypes = {
-  product: PropTypes.array.isRequired,
+  product: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
