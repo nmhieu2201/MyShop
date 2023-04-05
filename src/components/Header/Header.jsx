@@ -32,7 +32,7 @@ function Header() {
   useEffect(() => {
     let { username } = user;
     let index = users?.findIndex((user) => user.data.username === username);
-    setInfo(users[index].data);
+    setInfo(users[index]?.data);
   }, [users,user]);
   const springConfig = { damping: 15, stiffness: 300 };
   const initialScale = 0.5;
