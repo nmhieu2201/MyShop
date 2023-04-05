@@ -17,8 +17,9 @@ function OrderForm({ cartCurrent, total }) {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm();
-
   const _onSubmit = async (values) => {
+    let username = user.username;
+    let info = { ...values, username };
     let data = cartCurrent
       .filter((item) => item.select === true)
       .map((item) => {
@@ -29,33 +30,35 @@ function OrderForm({ cartCurrent, total }) {
           productPrice: item.unitPrice,
         };
       });
-    let username = user.username;
-    let info = { ...values, username };
-    try {
-      await fetch("http://localhost:8000/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          info: info,
-          data: data,
-          date: new Date().toJSON().slice(0, 10),
-        }),
-      })
-        .then((res) => {
-          return res.json();
+    if (data.length > 0) {
+      try {
+        await fetch("http://localhost:8000/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            info: info,
+            data: data,
+            date: new Date().toJSON().slice(0, 10),
+          }),
         })
-        .then((data) => {
-          dispatch(order(data));
-          toast.success("Bạn đã đặt hàng thành công !", {
-            position: toast.POSITION.TOP_RIGHT,
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            dispatch(order(data));
+            toast.success("Bạn đã đặt hàng thành công !", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            dispatch(resetCart());
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
           });
-          dispatch(resetCart());
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-        });
-    } catch (e) {
-      console.log(e);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      toast.error("Bạn phải chọn ít nhất 1 sản phẩm");
     }
   };
   return (

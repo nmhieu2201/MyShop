@@ -1,6 +1,6 @@
 import { Button, FormGroup, TextField, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -12,18 +12,35 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    formState: { errors, isValid },
   } = useForm();
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const _onSubmit = (user) => {
-    if (user.username === "admin" && user.password === "123456") {
-      dispatch(login(user));
-      toast.success("Bạn đã đăng nhập thành công");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+  const { user } = useSelector((state) => state.userReducer);
+  const _onSubmit = (value) => {
+    let index = users.findIndex(
+      (user) => user.data.username === value.username
+    );
+    if (index !== -1) {
+      if (users[index].data.password === value.password) {
+        dispatch(login(value));
+        toast.success("Bạn đã đăng nhập thành công");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        toast.error("Mật khẩu không đúng");
+      }
+    } else {
+      toast.error("Không tìm thấy tài khoản");
     }
   };
-  const { user } = useSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
   useEffect(() => {
     if (Object.entries(user).length !== 0) {
       navigate("/");
@@ -35,13 +52,15 @@ export default function Login() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "100px",
+        marginTop: "200px",
       }}>
       <Box
         sx={{
-          border: "1px solid #000",
-          padding: "50px 40px",
-          borderRadius: "10px",
+          border: "1px solid #dcdcdc",
+          borderRadius: "5px",
+          width: "100%",
+          padding: "40px 50px",
+          maxWidth: "500px",
         }}>
         <Typography
           sx={{
@@ -56,7 +75,6 @@ export default function Login() {
           <FormGroup sx={{ marginBottom: "20px" }}>
             <TextField
               label="Tên đăng nhập"
-              defaultValue="admin"
               {...register("username", {
                 required: "Tên không được bỏ trống",
                 minLength: {
@@ -69,10 +87,10 @@ export default function Login() {
                 },
               })}
             />
+            <Typography color="error">{errors.username?.message}</Typography>
           </FormGroup>
           <FormGroup sx={{ marginBottom: "20px" }}>
             <TextField
-              defaultValue="123456"
               label="Mật khẩu"
               type="password"
               {...register("password", {
@@ -87,9 +105,11 @@ export default function Login() {
                 },
               })}
             />
+            <Typography color="error">{errors.password?.message}</Typography>
           </FormGroup>
           <Button
             type="submit"
+            disabled={!isValid}
             sx={{
               padding: "6px 8px",
               background: "#fbceb5 ",

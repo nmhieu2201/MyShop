@@ -42,13 +42,12 @@ function Evaluate({ product, onClose }) {
   const _onSubmit = async (values) => {
     let info = user.username;
     let id = product.productId;
-    const data = { ...values, rating, id };
+    const data = { ...values, rating, id, info };
     try {
       await fetch("http://localhost:8000/productFeedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          info: info,
           data: data,
         }),
       })
