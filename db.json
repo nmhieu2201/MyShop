@@ -987,6 +987,15 @@
         "passwordConfirm": "123456"
       },
       "id": 2
+    },
+    {
+      "data": {
+        "fullName": "Họ Và Tên",
+        "username": "hovaten",
+        "password": "12345678",
+        "passwordConfirm": "12345678"
+      },
+      "id": 3
     }
   ]
 }
