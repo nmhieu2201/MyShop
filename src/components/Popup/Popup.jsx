@@ -4,12 +4,11 @@ import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import { memo } from "react";
 import { motion } from "framer-motion";
-function Popup(props) {
-  let { handleLogout, attrs, classes, style } = props;
+function Popup({ handleLogout, attrs, classes, style, user }) {
   return (
     <motion.div tabIndex="-1" className={classes.box} {...attrs} style={style}>
       <ul>
-        <li>Nguyễn Minh Hiếu</li>
+        <li>{user.fullName}</li>
         <li>
           <NavLink
             to="/puchase"
@@ -50,5 +49,6 @@ Popup.propTypes = {
   handleLogout: PropTypes.func.isRequired,
   attrs: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
-  style:PropTypes.object.isRequired,
+  style: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };

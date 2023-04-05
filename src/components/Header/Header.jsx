@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Tippy from "@tippyjs/react/headless";
 import Box from "@mui/material/Box";
 import { withStyles } from "@material-ui/styles";
 import Toolbar from "@mui/material/Toolbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PropTypes from "prop-types";
 import { Container, Grid, Badge, Avatar, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -14,6 +13,8 @@ import { useSpring } from "framer-motion";
 import Popup from "../Popup/Popup";
 function Header() {
   const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [info, setInfo] = useState({});
   const handleLogout = () => {
     localStorage.removeItem("cart");
     settings.eraseCookie("user");
@@ -22,6 +23,17 @@ function Header() {
   };
   const { cart } = useSelector((state) => state.cartReducer);
   const { user } = useSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
+  useEffect(() => {
+    let { username } = user;
+    let index = users?.findIndex((user) => user.data.username === username);
+    setInfo(users[index].data);
+  }, [users,user]);
   const springConfig = { damping: 15, stiffness: 300 };
   const initialScale = 0.5;
   const opacity = useSpring(0, springConfig);
@@ -99,6 +111,7 @@ function Header() {
                     render={(attrs) => (
                       <Popup
                         style={style}
+                        user={info}
                         attrs={attrs}
                         handleLogout={handleLogout}
                       />
@@ -130,9 +143,3 @@ export default withStyles({
     color: "#000",
   },
 })(Header);
-Header.propsType = {
-  classes: PropTypes.object,
-  _renderNav: PropTypes.func,
-  cart: PropTypes.array,
-  _handleChange: PropTypes.func,
-};

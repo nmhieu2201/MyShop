@@ -15,6 +15,7 @@ function Puchase() {
   const [listPuchase, setListPuchase] = useState([]);
   let { user } = useSelector((state) => state.userReducer);
   const [openModal, setOpenModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState({});
   useEffect(() => {
     fetch("http://localhost:8000/order")
       .then((res) => res.json())
@@ -29,29 +30,20 @@ function Puchase() {
   };
   const handleCloseModal = () => setOpenModal(false);
   const handleOpenModal = (product) => {
-    console.log("p", product);
+    setSelectedProduct(product);
     setOpenModal(true);
-    return (
-      <Dialog
-        disableScrollLock={true}
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="responsive-dialog-title">
-        <DialogContent sx={{ width: "600px", maxWidth: "100%" }}>
-          <Evaluate product={product} onClose={handleCloseModal} />
-        </DialogContent>
-      </Dialog>
-    );
   };
+
   const _renderPuchaseItem = (value) => {
     return value.data.map((product) => {
       return (
         <Grid
           key={product.productId}
           container
+          spacing={{ xs: 1 }}
           justifyContent="space-between"
           alignItems="center">
-          <Grid item>
+          <Grid item xs={4} sm={4}>
             <img
               style={{
                 width: "100px",
@@ -63,13 +55,13 @@ function Puchase() {
               alt={product.productName}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={4} sm={4}>
             <Typography sx={{ marginRight: "20px" }}>
               x{product.productQuantity}
             </Typography>
             <Typography>{product.productPrice}đ</Typography>
           </Grid>
-          <Grid item>
+          <Grid item xs={4} sm={4} container justifyContent="flex-end">
             <Button
               onClick={() => {
                 handleOpenModal(product);
@@ -127,14 +119,25 @@ function Puchase() {
     });
   };
   return (
-    <Stack sx={{ marginTop: "100px" }}>
-      <Container>
-        <Typography sx={{ marginBottom: "30px" }}>
-          Danh sách sản phẩm đã mua
-        </Typography>
-        <Stack>{_renderPuchase()}</Stack>
-      </Container>
-    </Stack>
+    <>
+      <Dialog
+        disableScrollLock={true}
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="responsive-dialog-title">
+        <DialogContent sx={{ width: "600px", maxWidth: "100%" }}>
+          <Evaluate product={selectedProduct} onClose={handleCloseModal} />
+        </DialogContent>
+      </Dialog>
+      <Stack sx={{ marginTop: "100px" }}>
+        <Container>
+          <Typography sx={{ marginBottom: "30px" }}>
+            Danh sách sản phẩm đã mua
+          </Typography>
+          <Stack>{_renderPuchase()}</Stack>
+        </Container>
+      </Stack>
+    </>
   );
 }
 
