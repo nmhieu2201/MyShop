@@ -8,7 +8,7 @@ function Popup({ handleLogout, attrs, classes, style, user }) {
   return (
     <motion.div tabIndex="-1" className={classes.box} {...attrs} style={style}>
       <ul>
-        <li>{user.fullName}</li>
+        <li>{user?.fullName}</li>
         <li>
           <NavLink
             to="/puchase"
